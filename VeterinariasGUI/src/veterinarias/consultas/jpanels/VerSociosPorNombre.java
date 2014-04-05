@@ -7,6 +7,8 @@ import javax.swing.Action;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -33,6 +35,12 @@ public class VerSociosPorNombre extends javax.swing.JPanel {
     private static JPanel panel;
     private JScrollPane scrollPane;
     private static javax.swing.JTable jTable1;
+    private JTextField txtDireccion;
+    private JTextField txtTelefono;
+    private JLabel lblNroSocio;
+    private JTextField txtNroSocio;
+    private JTextField txtCelular;
+    private JLabel lblCelular;
 
     /** Creates new form VerSociosPorNombre */
     public VerSociosPorNombre() {
@@ -119,56 +127,130 @@ public class VerSociosPorNombre extends javax.swing.JPanel {
         panel = new JPanel();
         panel.setBorder(null);
         panel.setBackground(Color.WHITE);
+        JLabel lblDireccion = new JLabel("Direcci\u00F3n:");
+        lblDireccion.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        txtDireccion = new JTextField();
+        txtDireccion.setColumns(10);
+        JLabel lblTelefono = new JLabel("Tel\u00E9fono:");
+        lblTelefono.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        txtTelefono = new JTextField();
+        txtTelefono.setColumns(10);
+        lblNroSocio = new JLabel("Nro Socio:");
+        lblNroSocio.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        txtNroSocio = new JTextField();
+        txtNroSocio.setColumns(10);
+        txtCelular = new JTextField();
+        txtCelular.setColumns(10);
+        lblCelular = new JLabel("Celular:");
+        lblCelular.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        JCheckBox chckbxCobrador = new JCheckBox("Cobrador");
+        chckbxCobrador.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
         //jScrollPane1.setViewportView(jTable1);
         javax.swing.GroupLayout gl_panelBusqueda = new javax.swing.GroupLayout(panelBusqueda);
-        gl_panelBusqueda.setHorizontalGroup(gl_panelBusqueda.createParallelGroup(Alignment.LEADING).addGroup(
-                gl_panelBusqueda
-                        .createSequentialGroup()
-                        .addContainerGap()
+        gl_panelBusqueda
+                .setHorizontalGroup(gl_panelBusqueda
+                        .createParallelGroup(Alignment.LEADING)
                         .addGroup(
                                 gl_panelBusqueda
-                                        .createParallelGroup(Alignment.LEADING)
-                                        .addComponent(panel, GroupLayout.DEFAULT_SIZE, 997, Short.MAX_VALUE)
+                                        .createSequentialGroup()
+                                        .addContainerGap()
                                         .addGroup(
                                                 gl_panelBusqueda
-                                                        .createSequentialGroup()
-                                                        .addGroup(
-                                                                gl_panelBusqueda.createParallelGroup(Alignment.LEADING).addComponent(lblPrimerNombre)
-                                                                        .addComponent(lblSegundoNombre).addComponent(lblPrimerApellido)
-                                                                        .addComponent(lblSegundoApellido))
-                                                        .addGap(64)
+                                                        .createParallelGroup(Alignment.LEADING)
+                                                        .addComponent(panel, GroupLayout.DEFAULT_SIZE, 1007, Short.MAX_VALUE)
                                                         .addGroup(
                                                                 gl_panelBusqueda
-                                                                        .createParallelGroup(Alignment.TRAILING, false)
-                                                                        .addComponent(txtPrimerApellido, Alignment.LEADING)
-                                                                        .addComponent(txtSegundoApellido, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 236,
-                                                                                Short.MAX_VALUE)
-                                                                        .addComponent(txtSegundoNombre, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 236,
-                                                                                Short.MAX_VALUE)
-                                                                        .addComponent(txtPrimerNombre, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 236,
-                                                                                Short.MAX_VALUE)
-                                                                        .addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap()));
+                                                                        .createSequentialGroup()
+                                                                        .addGroup(
+                                                                                gl_panelBusqueda
+                                                                                        .createParallelGroup(Alignment.LEADING)
+                                                                                        .addGroup(
+                                                                                                gl_panelBusqueda
+                                                                                                        .createSequentialGroup()
+                                                                                                        .addGroup(
+                                                                                                                gl_panelBusqueda
+                                                                                                                        .createParallelGroup(Alignment.LEADING)
+                                                                                                                        .addComponent(lblPrimerApellido)
+                                                                                                                        .addComponent(lblPrimerNombre)
+                                                                                                                        .addComponent(lblNroSocio)
+                                                                                                                        .addComponent(lblTelefono))
+                                                                                                        .addGap(76)
+                                                                                                        .addGroup(
+                                                                                                                gl_panelBusqueda
+                                                                                                                        .createParallelGroup(
+                                                                                                                                Alignment.TRAILING, false)
+                                                                                                                        .addComponent(txtPrimerNombre,
+                                                                                                                                GroupLayout.DEFAULT_SIZE, 236,
+                                                                                                                                Short.MAX_VALUE)
+                                                                                                                        .addGroup(
+                                                                                                                                gl_panelBusqueda
+                                                                                                                                        .createSequentialGroup()
+                                                                                                                                        .addComponent(
+                                                                                                                                                txtPrimerApellido)
+                                                                                                                                        .addPreferredGap(
+                                                                                                                                                ComponentPlacement.RELATED))
+                                                                                                                        .addComponent(txtNroSocio,
+                                                                                                                                GroupLayout.DEFAULT_SIZE, 236,
+                                                                                                                                Short.MAX_VALUE)
+                                                                                                                        .addComponent(txtTelefono))
+                                                                                                        .addGap(18)
+                                                                                                        .addGroup(
+                                                                                                                gl_panelBusqueda
+                                                                                                                        .createParallelGroup(Alignment.LEADING)
+                                                                                                                        .addComponent(lblSegundoApellido)
+                                                                                                                        .addComponent(lblSegundoNombre)
+                                                                                                                        .addComponent(lblDireccion)
+                                                                                                                        .addComponent(lblCelular,
+                                                                                                                                GroupLayout.PREFERRED_SIZE, 75,
+                                                                                                                                GroupLayout.PREFERRED_SIZE)))
+                                                                                        .addComponent(chckbxCobrador))
+                                                                        .addGap(61)
+                                                                        .addGroup(
+                                                                                gl_panelBusqueda
+                                                                                        .createParallelGroup(Alignment.LEADING)
+                                                                                        .addGroup(
+                                                                                                gl_panelBusqueda
+                                                                                                        .createParallelGroup(Alignment.LEADING, false)
+                                                                                                        .addComponent(txtDireccion)
+                                                                                                        .addComponent(txtSegundoApellido)
+                                                                                                        .addComponent(txtSegundoNombre,
+                                                                                                                GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                                                                                                        .addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE,
+                                                                                                                89, GroupLayout.PREFERRED_SIZE))
+                                                                                        .addComponent(txtCelular, GroupLayout.PREFERRED_SIZE, 236,
+                                                                                                GroupLayout.PREFERRED_SIZE))
+                                                                        .addPreferredGap(ComponentPlacement.RELATED, 130, Short.MAX_VALUE))).addContainerGap()));
         gl_panelBusqueda.setVerticalGroup(gl_panelBusqueda.createParallelGroup(Alignment.LEADING).addGroup(
                 gl_panelBusqueda
                         .createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(34)
                         .addGroup(
-                                gl_panelBusqueda.createParallelGroup(Alignment.TRAILING).addComponent(lblPrimerNombre)
-                                        .addComponent(txtPrimerNombre, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(ComponentPlacement.UNRELATED)
+                                gl_panelBusqueda.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(txtPrimerNombre, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtSegundoNombre, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblPrimerNombre).addComponent(lblSegundoNombre))
+                        .addGap(19)
                         .addGroup(
-                                gl_panelBusqueda.createParallelGroup(Alignment.BASELINE).addComponent(lblSegundoNombre)
-                                        .addComponent(txtSegundoNombre, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(ComponentPlacement.UNRELATED)
+                                gl_panelBusqueda
+                                        .createParallelGroup(Alignment.TRAILING)
+                                        .addGroup(
+                                                gl_panelBusqueda.createParallelGroup(Alignment.BASELINE)
+                                                        .addComponent(txtPrimerApellido, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(lblPrimerApellido).addComponent(lblSegundoApellido))
+                                        .addComponent(txtSegundoApellido, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+                        .addGap(20)
                         .addGroup(
-                                gl_panelBusqueda.createParallelGroup(Alignment.TRAILING).addComponent(lblPrimerApellido)
-                                        .addComponent(txtPrimerApellido, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(ComponentPlacement.UNRELATED)
+                                gl_panelBusqueda.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(txtDireccion, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE).addComponent(lblDireccion)
+                                        .addComponent(txtNroSocio, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE).addComponent(lblNroSocio))
+                        .addGap(18)
                         .addGroup(
-                                gl_panelBusqueda.createParallelGroup(Alignment.TRAILING).addComponent(lblSegundoApellido)
-                                        .addComponent(txtSegundoApellido, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)).addGap(18)
-                        .addComponent(btnBuscar).addGap(57).addComponent(panel, GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE).addContainerGap()));
+                                gl_panelBusqueda.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(txtTelefono, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE).addComponent(lblTelefono)
+                                        .addComponent(lblCelular, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtCelular, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)).addGap(21)
+                        .addGroup(gl_panelBusqueda.createParallelGroup(Alignment.BASELINE).addComponent(btnBuscar).addComponent(chckbxCobrador)).addGap(18)
+                        .addComponent(panel, GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE).addContainerGap()));
         scrollPane = new JScrollPane();
         scrollPane.setBorder(null);
         scrollPane.setViewportBorder(null);
