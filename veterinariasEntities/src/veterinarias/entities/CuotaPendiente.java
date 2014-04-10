@@ -2,7 +2,9 @@ package veterinarias.entities;
 
 import java.util.Date;
 
-public class CuotaPendiente {
+import veterinarias.generics.GenericEntity;
+
+public class CuotaPendiente extends GenericEntity {
 	
 	private Socio socio;
 	private Date fechaCuota;

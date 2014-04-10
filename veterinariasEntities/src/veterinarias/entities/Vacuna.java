@@ -1,6 +1,8 @@
 package veterinarias.entities;
 
-public class Vacuna {
+import veterinarias.generics.GenericEntity;
+
+public class Vacuna extends GenericEntity {
 	
 	private Mascota mascota;
 

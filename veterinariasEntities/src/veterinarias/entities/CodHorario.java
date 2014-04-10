@@ -1,6 +1,8 @@
 package veterinarias.entities;
 
-public class CodHorario {
+import veterinarias.generics.GenericEntity;
+
+public class CodHorario extends GenericEntity {
 	
 	private Long codDia;
 	private String descripcion;

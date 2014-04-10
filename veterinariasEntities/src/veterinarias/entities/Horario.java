@@ -2,7 +2,9 @@ package veterinarias.entities;
 
 import java.util.Date;
 
-public class Horario {
+import veterinarias.generics.GenericEntity;
+
+public class Horario extends GenericEntity {
 	
 	private CodHorario codHorario;
 	private Date fechaInicio;
