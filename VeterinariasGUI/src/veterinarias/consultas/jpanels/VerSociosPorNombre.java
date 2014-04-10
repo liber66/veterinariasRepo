@@ -255,8 +255,10 @@ public class VerSociosPorNombre extends javax.swing.JPanel {
         scrollPane.setBorder(null);
         scrollPane.setViewportBorder(null);
         javax.swing.GroupLayout layout3 = new javax.swing.GroupLayout(panel);
-        layout3.setHorizontalGroup(layout3.createParallelGroup(Alignment.LEADING).addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE));
-        layout3.setVerticalGroup(layout3.createParallelGroup(Alignment.LEADING).addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE));
+        layout3.setHorizontalGroup(layout3.createParallelGroup(Alignment.LEADING).addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 1007, Short.MAX_VALUE));
+        layout3.setVerticalGroup(layout3.createParallelGroup(Alignment.TRAILING).addGroup(
+                layout3.createSequentialGroup().addContainerGap(70, Short.MAX_VALUE)
+                        .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 357, GroupLayout.PREFERRED_SIZE)));
         panel.setLayout(layout3);
         panelBusqueda.setLayout(gl_panelBusqueda);
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
