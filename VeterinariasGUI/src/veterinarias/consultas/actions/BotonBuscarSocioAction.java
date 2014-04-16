@@ -20,27 +20,29 @@ import veterinarias.objects.trans.SocioTrans;
 public class BotonBuscarSocioAction extends AbstractAction {
 
     private static final long serialVersionUID = 1L;
+    private VerSocios verSocios;
 
-    public BotonBuscarSocioAction() {
+    public BotonBuscarSocioAction(VerSocios verSocios) {
         putValue(NAME, "Buscar");
         putValue(SHORT_DESCRIPTION, "Buscar Socio por nombre");
+        this.verSocios = verSocios;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         ContractObtSocios contractObtSocios = new ContractObtSocios();
-        String nroSocioString = VerSocios.getTxtNroSocio().getText();
+        String nroSocioString = verSocios.getTxtNroSocio().getText();
         if (nroSocioString != null && !nroSocioString.isEmpty()) {
             contractObtSocios.setNroSocio(new Long(nroSocioString));
         }
-        contractObtSocios.setPrimerNombre(VerSocios.getTxtPrimerNombre().getText());
-        contractObtSocios.setPrimerApellido(VerSocios.getTxtPrimerApellido().getText());
-        contractObtSocios.setSegundoNombre(VerSocios.getTxtSegundoNombre().getText());
-        contractObtSocios.setSegundoApellido(VerSocios.getTxtSegundoApellido().getText());
-        contractObtSocios.setDireccion(VerSocios.getTxtDireccion().getText());
-        contractObtSocios.setTelefono(VerSocios.getTxtTelefono().getText());
-        contractObtSocios.setCelular(VerSocios.getTxtCelular().getText());
-        String cobrador = (String) VerSocios.getCmbCobrador().getSelectedItem();
+        contractObtSocios.setPrimerNombre(verSocios.getTxtPrimerNombre().getText());
+        contractObtSocios.setPrimerApellido(verSocios.getTxtPrimerApellido().getText());
+        contractObtSocios.setSegundoNombre(verSocios.getTxtSegundoNombre().getText());
+        contractObtSocios.setSegundoApellido(verSocios.getTxtSegundoApellido().getText());
+        contractObtSocios.setDireccion(verSocios.getTxtDireccion().getText());
+        contractObtSocios.setTelefono(verSocios.getTxtTelefono().getText());
+        contractObtSocios.setCelular(verSocios.getTxtCelular().getText());
+        String cobrador = (String) verSocios.getCmbCobrador().getSelectedItem();
         if (!cobrador.isEmpty()) {
             if ("Si".equals(cobrador)) {
                 contractObtSocios.setCobrador("S");
@@ -53,7 +55,7 @@ public class BotonBuscarSocioAction extends AbstractAction {
         solverObtSocios.validate();
         ResultObtSocios resultObtSocios = solverObtSocios.getResponseFromSolver();
         if (resultObtSocios != null && resultObtSocios.getSociosTrans() != null && !resultObtSocios.getSociosTrans().isEmpty()) {
-            JTable jTable1 = VerSocios.getJTable1();
+            JTable jTable1 = verSocios.getJTable1();
             String[] columnNames = { "Nro Socio", "Nombre Completo", "Tel\u00E9fono", "Celular", "Direcci\u00F3n", "Cobrador" };
             int rowCount = resultObtSocios.getSociosTrans().size();
             CeldasNoEditablesModel miModelo = new CeldasNoEditablesModel(columnNames, rowCount);
@@ -80,11 +82,11 @@ public class BotonBuscarSocioAction extends AbstractAction {
             }
             JTableHeader tableHeader = jTable1.getTableHeader();
             tableHeader.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
-            VerSocios.setJTable1(jTable1);
-            JPanel panel = VerSocios.getPanel();
+            verSocios.setJTable1(jTable1);
+            JPanel panel = verSocios.getPanel();
             panel.setVisible(true);
         } else {
-            JPanel panel = VerSocios.getPanel();
+            JPanel panel = verSocios.getPanel();
             panel.setVisible(false);
         }
     }

@@ -1,0 +1,23 @@
+package veterinarias.principal.actions;
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+
+import veterinarias.consultas.jpanels.VerMascotas;
+
+public class BuscarMascotaAction extends AbstractAction {
+
+    private static final long serialVersionUID = 1L;
+
+    public BuscarMascotaAction() {
+        putValue(NAME, "Por Nombre");
+        putValue(SHORT_DESCRIPTION, "Buscar Mascota");
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        VerMascotas verMascotas = new VerMascotas();
+        verMascotas.setVisible(true);
+    }
+}

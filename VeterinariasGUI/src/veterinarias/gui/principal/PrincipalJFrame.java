@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
-import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -14,12 +13,14 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import veterinarias.consultas.actions.BuscarSocioPorNombreAction;
+import veterinarias.principal.actions.BuscarMascotaAction;
+import veterinarias.principal.actions.BuscarSocioPorNombreAction;
 
 public class PrincipalJFrame extends JFrame {
 
+    private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private final Action buscarSocioPorNombreAction = new BuscarSocioPorNombreAction();
+    //private final Action buscarSocioPorNombreAction = ;
     public static PrincipalJFrame mainMenu = null;
 
     //private ImagePanel fondo;
@@ -53,6 +54,7 @@ public class PrincipalJFrame extends JFrame {
      */
     public PrincipalJFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         Double width = d.getWidth();
         Double height = d.getHeight() - 35;
@@ -66,10 +68,13 @@ public class PrincipalJFrame extends JFrame {
         JMenu mnBuscarSocios = new JMenu("Buscar Socios");
         mnBusquedas.add(mnBuscarSocios);
         JMenuItem mntmPorNombre = new JMenuItem("Por Nombre");
-        mntmPorNombre.setAction(buscarSocioPorNombreAction);
+        mntmPorNombre.setAction(new BuscarSocioPorNombreAction());
         mnBuscarSocios.add(mntmPorNombre);
         JMenu mnBuscarMascotas = new JMenu("Buscar Mascotas");
         mnBusquedas.add(mnBuscarMascotas);
+        JMenuItem mntmBuscarMascotaPor = new JMenuItem("Buscar Mascota por Nombre");
+        mnBuscarMascotas.add(mntmBuscarMascotaPor);
+        mntmBuscarMascotaPor.setAction(new BuscarMascotaAction());
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));

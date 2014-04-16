@@ -23,26 +23,26 @@ public class VerSocios extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
     // Variables declaration - do not modify
-    private javax.swing.JLabel lblPrimerNombre;
-    private javax.swing.JLabel lblSegundoNombre;
-    private javax.swing.JLabel lblPrimerApellido;
-    private javax.swing.JLabel lblSegundoApellido;
+    private JLabel lblPrimerNombre;
+    private JLabel lblSegundoNombre;
+    private JLabel lblPrimerApellido;
+    private JLabel lblSegundoApellido;
     private ImagePanel panelBusqueda;
-    private static JTextField txtSegundoApellido;
-    private static JTextField txtPrimerApellido;
-    private static JTextField txtPrimerNombre;
-    private static JTextField txtSegundoNombre;
-    private final Action btnBuscarSocioAction = new BotonBuscarSocioAction();
-    private static JPanel panel;
+    private JTextField txtSegundoApellido;
+    private JTextField txtPrimerApellido;
+    private JTextField txtPrimerNombre;
+    private JTextField txtSegundoNombre;
+    private final Action btnBuscarSocioAction = new BotonBuscarSocioAction(this);
+    private JPanel panel;
     private JScrollPane scrollPane;
-    private static javax.swing.JTable jTable1;
-    private static JTextField txtDireccion;
-    private static JTextField txtTelefono;
+    private JTable jTable1;
+    private JTextField txtDireccion;
+    private JTextField txtTelefono;
     private JLabel lblNroSocio;
-    private static JTextField txtNroSocio;
-    private static JTextField txtCelular;
+    private JTextField txtNroSocio;
+    private JTextField txtCelular;
     private JLabel lblCelular;
-    private static JComboBox<String> cmbCobrador;
+    private JComboBox<String> cmbCobrador;
 
     /** Creates new form VerSociosPorNombre */
     public VerSocios() {
@@ -52,88 +52,92 @@ public class VerSocios extends javax.swing.JPanel {
         panel.setVisible(false);
     }
 
-    public static void setTxtNroSocio(JTextField txtNroSocio) {
-        VerSocios.txtNroSocio = txtNroSocio;
-    }
-
-    public static void setTxtPrimerNombre(JTextField txtPrimerNombre) {
-        VerSocios.txtPrimerNombre = txtPrimerNombre;
-    }
-
-    public static void setTxtSegundoNombre(JTextField txtSegundoNombre) {
-        VerSocios.txtSegundoNombre = txtSegundoNombre;
-    }
-
-    public static void setTxtPrimerApellido(JTextField txtPrimerApellido) {
-        VerSocios.txtPrimerApellido = txtPrimerApellido;
-    }
-
-    public static void setTxtSegundoApellido(JTextField txtSegundoApellido) {
-        VerSocios.txtSegundoApellido = txtSegundoApellido;
-    }
-
-    public static void setTxtDireccion(JTextField txtDireccion) {
-        VerSocios.txtDireccion = txtDireccion;
-    }
-
-    public static void setTxtTelefono(JTextField txtTelefono) {
-        VerSocios.txtTelefono = txtTelefono;
-    }
-
-    public static void setTxtCelular(JTextField txtCelular) {
-        VerSocios.txtCelular = txtCelular;
-    }
-
-    public static void setCmbCobrador(JComboBox<String> cmbCobrador) {
-        VerSocios.cmbCobrador = cmbCobrador;
-    }
-
-    public static JTextField getTxtNroSocio() {
-        return txtNroSocio;
-    }
-
-    public static JTextField getTxtPrimerNombre() {
-        return txtPrimerNombre;
-    }
-
-    public static JTextField getTxtSegundoNombre() {
-        return txtSegundoNombre;
-    }
-
-    public static JTextField getTxtPrimerApellido() {
-        return txtPrimerApellido;
-    }
-
-    public static JTextField getTxtSegundoApellido() {
+    public JTextField getTxtSegundoApellido() {
         return txtSegundoApellido;
     }
 
-    public static JTextField getTxtDireccion() {
+    public void setTxtSegundoApellido(JTextField txtSegundoApellido) {
+        this.txtSegundoApellido = txtSegundoApellido;
+    }
+
+    public JTextField getTxtPrimerApellido() {
+        return txtPrimerApellido;
+    }
+
+    public void setTxtPrimerApellido(JTextField txtPrimerApellido) {
+        this.txtPrimerApellido = txtPrimerApellido;
+    }
+
+    public JTextField getTxtPrimerNombre() {
+        return txtPrimerNombre;
+    }
+
+    public void setTxtPrimerNombre(JTextField txtPrimerNombre) {
+        this.txtPrimerNombre = txtPrimerNombre;
+    }
+
+    public JTextField getTxtSegundoNombre() {
+        return txtSegundoNombre;
+    }
+
+    public void setTxtSegundoNombre(JTextField txtSegundoNombre) {
+        this.txtSegundoNombre = txtSegundoNombre;
+    }
+
+    public JTextField getTxtDireccion() {
         return txtDireccion;
     }
 
-    public static JTextField getTxtTelefono() {
+    public void setTxtDireccion(JTextField txtDireccion) {
+        this.txtDireccion = txtDireccion;
+    }
+
+    public JTextField getTxtTelefono() {
         return txtTelefono;
     }
 
-    public static JTextField getTxtCelular() {
+    public void setTxtTelefono(JTextField txtTelefono) {
+        this.txtTelefono = txtTelefono;
+    }
+
+    public JTextField getTxtNroSocio() {
+        return txtNroSocio;
+    }
+
+    public void setTxtNroSocio(JTextField txtNroSocio) {
+        this.txtNroSocio = txtNroSocio;
+    }
+
+    public JTextField getTxtCelular() {
         return txtCelular;
     }
 
-    public static JComboBox<String> getCmbCobrador() {
+    public void setTxtCelular(JTextField txtCelular) {
+        this.txtCelular = txtCelular;
+    }
+
+    public JComboBox<String> getCmbCobrador() {
         return cmbCobrador;
     }
 
-    public static JPanel getPanel() {
+    public void setCmbCobrador(JComboBox<String> cmbCobrador) {
+        this.cmbCobrador = cmbCobrador;
+    }
+
+    public JTable getJTable1() {
+        return jTable1;
+    }
+
+    public void setJTable1(JTable jTable1) {
+        this.jTable1 = jTable1;
+    }
+
+    public JPanel getPanel() {
         return panel;
     }
 
-    public static void setJTable1(JTable jTable1) {
-        VerSocios.jTable1 = jTable1;
-    }
-
-    public static JTable getJTable1() {
-        return jTable1;
+    public void setPanel(JPanel panel) {
+        this.panel = panel;
     }
 
     /**

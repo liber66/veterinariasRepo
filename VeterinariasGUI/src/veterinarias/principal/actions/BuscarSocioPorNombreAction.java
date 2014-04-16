@@ -1,4 +1,4 @@
-package veterinarias.consultas.actions;
+package veterinarias.principal.actions;
 
 import java.awt.Container;
 import java.awt.event.ActionEvent;
@@ -28,15 +28,5 @@ public class BuscarSocioPorNombreAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         cargarDialogo(new VerSocios(), "Ver Socios Por Nombre");
-        /*ContractObtSociosPorNombre contractObtSociosPorNombre = new ContractObtSociosPorNombre();
-        contractObtSociosPorNombre.setPrimerNombre("Liber");
-        contractObtSociosPorNombre.setPrimerApellido("Azambuya");
-        contractObtSociosPorNombre.setSegundoNombre("Marcos");
-        contractObtSociosPorNombre.setSegundoApellido("Alvarez");
-        SolverObtSociosPorNombre solverObtSociosPorNombre = new SolverObtSociosPorNombre();
-        solverObtSociosPorNombre.loadContract(contractObtSociosPorNombre);
-        solverObtSociosPorNombre.validate();
-        ResultObtSociosPorNombre resultObtSociosPorNombre = solverObtSociosPorNombre.getResponseFromSolver();
-        System.out.println(resultObtSociosPorNombre.getSociosTrans().get(0).getNroSocio());*/
     }
 }
