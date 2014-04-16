@@ -10,37 +10,52 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
-import veterinarias.consultas.contracts.ContractObtSociosPorNombre;
-import veterinarias.consultas.jpanels.VerSociosPorNombre;
-import veterinarias.consultas.results.ResultObtSociosPorNombre;
-import veterinarias.consultas.solvers.SolverObtSociosPorNombre;
+import veterinarias.consultas.contracts.ContractObtSocios;
+import veterinarias.consultas.jpanels.VerSocios;
+import veterinarias.consultas.results.ResultObtSocios;
+import veterinarias.consultas.solvers.SolverObtSocios;
 import veterinarias.gui.utils.tables.models.CeldasNoEditablesModel;
 import veterinarias.objects.trans.SocioTrans;
 
-public class BotonBuscarSocioPorNombreAction extends AbstractAction {
+public class BotonBuscarSocioAction extends AbstractAction {
 
     private static final long serialVersionUID = 1L;
 
-    public BotonBuscarSocioPorNombreAction() {
+    public BotonBuscarSocioAction() {
         putValue(NAME, "Buscar");
         putValue(SHORT_DESCRIPTION, "Buscar Socio por nombre");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ContractObtSociosPorNombre contractObtSociosPorNombre = new ContractObtSociosPorNombre();
-        contractObtSociosPorNombre.setPrimerNombre(VerSociosPorNombre.getTxtPrimerNombre().getText());
-        contractObtSociosPorNombre.setPrimerApellido(VerSociosPorNombre.getTxtPrimerApellido().getText());
-        contractObtSociosPorNombre.setSegundoNombre(VerSociosPorNombre.getTxtSegundoNombre().getText());
-        contractObtSociosPorNombre.setSegundoApellido(VerSociosPorNombre.getTxtSegundoApellido().getText());
-        SolverObtSociosPorNombre solverObtSociosPorNombre = new SolverObtSociosPorNombre();
-        solverObtSociosPorNombre.loadContract(contractObtSociosPorNombre);
-        solverObtSociosPorNombre.validate();
-        ResultObtSociosPorNombre resultObtSociosPorNombre = solverObtSociosPorNombre.getResponseFromSolver();
-        if (resultObtSociosPorNombre != null && resultObtSociosPorNombre.getSociosTrans() != null && !resultObtSociosPorNombre.getSociosTrans().isEmpty()) {
-            JTable jTable1 = VerSociosPorNombre.getJTable1();
+        ContractObtSocios contractObtSocios = new ContractObtSocios();
+        String nroSocioString = VerSocios.getTxtNroSocio().getText();
+        if (nroSocioString != null && !nroSocioString.isEmpty()) {
+            contractObtSocios.setNroSocio(new Long(nroSocioString));
+        }
+        contractObtSocios.setPrimerNombre(VerSocios.getTxtPrimerNombre().getText());
+        contractObtSocios.setPrimerApellido(VerSocios.getTxtPrimerApellido().getText());
+        contractObtSocios.setSegundoNombre(VerSocios.getTxtSegundoNombre().getText());
+        contractObtSocios.setSegundoApellido(VerSocios.getTxtSegundoApellido().getText());
+        contractObtSocios.setDireccion(VerSocios.getTxtDireccion().getText());
+        contractObtSocios.setTelefono(VerSocios.getTxtTelefono().getText());
+        contractObtSocios.setCelular(VerSocios.getTxtCelular().getText());
+        String cobrador = (String) VerSocios.getCmbCobrador().getSelectedItem();
+        if (!cobrador.isEmpty()) {
+            if ("Si".equals(cobrador)) {
+                contractObtSocios.setCobrador("S");
+            } else {
+                contractObtSocios.setCobrador("N");
+            }
+        }
+        SolverObtSocios solverObtSocios = new SolverObtSocios();
+        solverObtSocios.loadContract(contractObtSocios);
+        solverObtSocios.validate();
+        ResultObtSocios resultObtSocios = solverObtSocios.getResponseFromSolver();
+        if (resultObtSocios != null && resultObtSocios.getSociosTrans() != null && !resultObtSocios.getSociosTrans().isEmpty()) {
+            JTable jTable1 = VerSocios.getJTable1();
             String[] columnNames = { "Nro Socio", "Nombre Completo", "Tel\u00E9fono", "Celular", "Direcci\u00F3n", "Cobrador" };
-            int rowCount = resultObtSociosPorNombre.getSociosTrans().size();
+            int rowCount = resultObtSocios.getSociosTrans().size();
             CeldasNoEditablesModel miModelo = new CeldasNoEditablesModel(columnNames, rowCount);
             jTable1.setModel(miModelo);
             int[] anchos = { 10, 300, 17, 17, 300, 6 };
@@ -51,7 +66,7 @@ public class BotonBuscarSocioPorNombreAction extends AbstractAction {
             jTable1.getColumnModel().getColumn(2).setCellRenderer(cellCenterModel);
             jTable1.getColumnModel().getColumn(3).setCellRenderer(cellCenterModel);
             jTable1.getColumnModel().getColumn(5).setCellRenderer(cellCenterModel);
-            List<SocioTrans> listaSocios = resultObtSociosPorNombre.getSociosTrans();
+            List<SocioTrans> listaSocios = resultObtSocios.getSociosTrans();
             for (int i = 0; i < rowCount; i++) {
                 SocioTrans SocioTrans = listaSocios.get(i);
                 jTable1.setValueAt(SocioTrans.getNroSocio(), i, 0);
@@ -65,11 +80,11 @@ public class BotonBuscarSocioPorNombreAction extends AbstractAction {
             }
             JTableHeader tableHeader = jTable1.getTableHeader();
             tableHeader.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
-            VerSociosPorNombre.setJTable1(jTable1);
-            JPanel panel = VerSociosPorNombre.getPanel();
+            VerSocios.setJTable1(jTable1);
+            JPanel panel = VerSocios.getPanel();
             panel.setVisible(true);
         } else {
-            JPanel panel = VerSociosPorNombre.getPanel();
+            JPanel panel = VerSocios.getPanel();
             panel.setVisible(false);
         }
     }

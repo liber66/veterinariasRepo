@@ -1,21 +1,21 @@
 package veterinarias.pruebas;
 
-import veterinarias.consultas.contracts.ContractObtSociosPorNombre;
-import veterinarias.consultas.results.ResultObtSociosPorNombre;
-import veterinarias.consultas.solvers.SolverObtSociosPorNombre;
+import veterinarias.consultas.contracts.ContractObtSocios;
+import veterinarias.consultas.results.ResultObtSocios;
+import veterinarias.consultas.solvers.SolverObtSocios;
 
 public class pruebaObtSociosPorNombre {
 
     public static void main(String[] args) {
-        ContractObtSociosPorNombre contractObtSociosPorNombre = new ContractObtSociosPorNombre();
+        ContractObtSocios contractObtSociosPorNombre = new ContractObtSocios();
         contractObtSociosPorNombre.setPrimerNombre("Liber");
         contractObtSociosPorNombre.setPrimerApellido("Azambuya");
         contractObtSociosPorNombre.setSegundoNombre("Marcos");
         contractObtSociosPorNombre.setSegundoApellido("Alvarez");
-        SolverObtSociosPorNombre solverObtSociosPorNombre = new SolverObtSociosPorNombre();
+        SolverObtSocios solverObtSociosPorNombre = new SolverObtSocios();
         solverObtSociosPorNombre.loadContract(contractObtSociosPorNombre);
         solverObtSociosPorNombre.validate();
-        ResultObtSociosPorNombre resultObtSociosPorNombre = solverObtSociosPorNombre.getResponseFromSolver();
+        ResultObtSocios resultObtSociosPorNombre = solverObtSociosPorNombre.getResponseFromSolver();
         System.out.println(resultObtSociosPorNombre.getSociosTrans().get(0).getNroSocio());
     }
 }

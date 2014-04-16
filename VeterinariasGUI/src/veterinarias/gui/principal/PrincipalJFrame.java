@@ -1,7 +1,9 @@
 package veterinarias.gui.principal;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 
 import javax.swing.Action;
 import javax.swing.JFrame;
@@ -51,7 +53,12 @@ public class PrincipalJFrame extends JFrame {
      */
     public PrincipalJFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 450, 300);
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        Double width = d.getWidth();
+        Double height = d.getHeight() - 35;
+        Double x = width / 1500;
+        Double y = height / 700;
+        setBounds(x.intValue(), y.intValue(), width.intValue(), height.intValue());
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
         JMenu mnBusquedas = new JMenu("B\u00FAsquedas");
@@ -70,15 +77,15 @@ public class PrincipalJFrame extends JFrame {
         JPanel panel = new JPanel();
         contentPane.add(panel, BorderLayout.CENTER);
         //
-        /*  fondo = new ImagePanel();
-          javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-          getContentPane().setLayout(layout);
-          layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(fondo,
-                  javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-          layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                  javax.swing.GroupLayout.Alignment.TRAILING,
-                  layout.createSequentialGroup().addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                          .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)));
-          fondo.setImagen("perro.jpg");*/
+        /*fondo = new ImagePanel();
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(fondo,
+                javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                javax.swing.GroupLayout.Alignment.TRAILING,
+                layout.createSequentialGroup().addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)));
+        fondo.setImagen("perro.jpg");*/
     }
 }

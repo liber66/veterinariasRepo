@@ -4,10 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.Action;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -15,10 +16,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import veterinarias.consultas.actions.BotonBuscarSocioPorNombreAction;
+import veterinarias.consultas.actions.BotonBuscarSocioAction;
 import veterinarias.pruebas.ImagePanel;
 
-public class VerSociosPorNombre extends javax.swing.JPanel {
+public class VerSocios extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
     // Variables declaration - do not modify
@@ -31,47 +32,64 @@ public class VerSociosPorNombre extends javax.swing.JPanel {
     private static JTextField txtPrimerApellido;
     private static JTextField txtPrimerNombre;
     private static JTextField txtSegundoNombre;
-    private final Action btnBuscarSocioPorNombreAction = new BotonBuscarSocioPorNombreAction();
+    private final Action btnBuscarSocioAction = new BotonBuscarSocioAction();
     private static JPanel panel;
     private JScrollPane scrollPane;
     private static javax.swing.JTable jTable1;
-    private JTextField txtDireccion;
-    private JTextField txtTelefono;
+    private static JTextField txtDireccion;
+    private static JTextField txtTelefono;
     private JLabel lblNroSocio;
-    private JTextField txtNroSocio;
-    private JTextField txtCelular;
+    private static JTextField txtNroSocio;
+    private static JTextField txtCelular;
     private JLabel lblCelular;
+    private static JComboBox<String> cmbCobrador;
 
     /** Creates new form VerSociosPorNombre */
-    public VerSociosPorNombre() {
+    public VerSocios() {
         initComponents();
         panelBusqueda.setVisible(true);
         panelBusqueda.setImagen("perro.jpg");
         panel.setVisible(false);
     }
 
-    public static void setTxtSegundoApellido(JTextField txtSegundoApellido) {
-        VerSociosPorNombre.txtSegundoApellido = txtSegundoApellido;
-    }
-
-    public static void setTxtPrimerApellido(JTextField txtPrimerApellido) {
-        VerSociosPorNombre.txtPrimerApellido = txtPrimerApellido;
+    public static void setTxtNroSocio(JTextField txtNroSocio) {
+        VerSocios.txtNroSocio = txtNroSocio;
     }
 
     public static void setTxtPrimerNombre(JTextField txtPrimerNombre) {
-        VerSociosPorNombre.txtPrimerNombre = txtPrimerNombre;
+        VerSocios.txtPrimerNombre = txtPrimerNombre;
     }
 
     public static void setTxtSegundoNombre(JTextField txtSegundoNombre) {
-        VerSociosPorNombre.txtSegundoNombre = txtSegundoNombre;
+        VerSocios.txtSegundoNombre = txtSegundoNombre;
     }
 
-    public static JTextField getTxtSegundoApellido() {
-        return txtSegundoApellido;
+    public static void setTxtPrimerApellido(JTextField txtPrimerApellido) {
+        VerSocios.txtPrimerApellido = txtPrimerApellido;
     }
 
-    public static JTextField getTxtPrimerApellido() {
-        return txtPrimerApellido;
+    public static void setTxtSegundoApellido(JTextField txtSegundoApellido) {
+        VerSocios.txtSegundoApellido = txtSegundoApellido;
+    }
+
+    public static void setTxtDireccion(JTextField txtDireccion) {
+        VerSocios.txtDireccion = txtDireccion;
+    }
+
+    public static void setTxtTelefono(JTextField txtTelefono) {
+        VerSocios.txtTelefono = txtTelefono;
+    }
+
+    public static void setTxtCelular(JTextField txtCelular) {
+        VerSocios.txtCelular = txtCelular;
+    }
+
+    public static void setCmbCobrador(JComboBox<String> cmbCobrador) {
+        VerSocios.cmbCobrador = cmbCobrador;
+    }
+
+    public static JTextField getTxtNroSocio() {
+        return txtNroSocio;
     }
 
     public static JTextField getTxtPrimerNombre() {
@@ -82,12 +100,36 @@ public class VerSociosPorNombre extends javax.swing.JPanel {
         return txtSegundoNombre;
     }
 
+    public static JTextField getTxtPrimerApellido() {
+        return txtPrimerApellido;
+    }
+
+    public static JTextField getTxtSegundoApellido() {
+        return txtSegundoApellido;
+    }
+
+    public static JTextField getTxtDireccion() {
+        return txtDireccion;
+    }
+
+    public static JTextField getTxtTelefono() {
+        return txtTelefono;
+    }
+
+    public static JTextField getTxtCelular() {
+        return txtCelular;
+    }
+
+    public static JComboBox<String> getCmbCobrador() {
+        return cmbCobrador;
+    }
+
     public static JPanel getPanel() {
         return panel;
     }
 
     public static void setJTable1(JTable jTable1) {
-        VerSociosPorNombre.jTable1 = jTable1;
+        VerSocios.jTable1 = jTable1;
     }
 
     public static JTable getJTable1() {
@@ -123,7 +165,7 @@ public class VerSociosPorNombre extends javax.swing.JPanel {
         txtSegundoNombre = new JTextField();
         txtSegundoNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
         JButton btnBuscar = new JButton("Buscar");
-        btnBuscar.setAction(btnBuscarSocioPorNombreAction);
+        btnBuscar.setAction(btnBuscarSocioAction);
         panel = new JPanel();
         panel.setBorder(null);
         panel.setBackground(Color.WHITE);
@@ -143,8 +185,10 @@ public class VerSociosPorNombre extends javax.swing.JPanel {
         txtCelular.setColumns(10);
         lblCelular = new JLabel("Celular:");
         lblCelular.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
-        JCheckBox chckbxCobrador = new JCheckBox("Cobrador");
-        chckbxCobrador.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        cmbCobrador = new JComboBox<String>();
+        cmbCobrador.setModel(new DefaultComboBoxModel<String>(new String[] { "", "Si", "No" }));
+        JLabel lblCobrador = new JLabel("Cobrador:");
+        lblCobrador.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
         //jScrollPane1.setViewportView(jTable1);
         javax.swing.GroupLayout gl_panelBusqueda = new javax.swing.GroupLayout(panelBusqueda);
         gl_panelBusqueda
@@ -172,9 +216,20 @@ public class VerSociosPorNombre extends javax.swing.JPanel {
                                                                                                                         .createParallelGroup(Alignment.LEADING)
                                                                                                                         .addComponent(lblPrimerApellido)
                                                                                                                         .addComponent(lblPrimerNombre)
-                                                                                                                        .addComponent(lblNroSocio)
-                                                                                                                        .addComponent(lblTelefono))
-                                                                                                        .addGap(76)
+                                                                                                                        .addComponent(lblTelefono)
+                                                                                                                        .addComponent(lblNroSocio)).addGap(81))
+                                                                                        .addGroup(
+                                                                                                gl_panelBusqueda
+                                                                                                        .createSequentialGroup()
+                                                                                                        .addComponent(lblCobrador, GroupLayout.DEFAULT_SIZE,
+                                                                                                                196, Short.MAX_VALUE)
+                                                                                                        .addPreferredGap(ComponentPlacement.RELATED)))
+                                                                        .addGroup(
+                                                                                gl_panelBusqueda
+                                                                                        .createParallelGroup(Alignment.LEADING)
+                                                                                        .addGroup(
+                                                                                                gl_panelBusqueda
+                                                                                                        .createSequentialGroup()
                                                                                                         .addGroup(
                                                                                                                 gl_panelBusqueda
                                                                                                                         .createParallelGroup(
@@ -203,7 +258,8 @@ public class VerSociosPorNombre extends javax.swing.JPanel {
                                                                                                                         .addComponent(lblCelular,
                                                                                                                                 GroupLayout.PREFERRED_SIZE, 75,
                                                                                                                                 GroupLayout.PREFERRED_SIZE)))
-                                                                                        .addComponent(chckbxCobrador))
+                                                                                        .addComponent(cmbCobrador, GroupLayout.PREFERRED_SIZE, 70,
+                                                                                                GroupLayout.PREFERRED_SIZE))
                                                                         .addGap(61)
                                                                         .addGroup(
                                                                                 gl_panelBusqueda
@@ -219,7 +275,7 @@ public class VerSociosPorNombre extends javax.swing.JPanel {
                                                                                                                 89, GroupLayout.PREFERRED_SIZE))
                                                                                         .addComponent(txtCelular, GroupLayout.PREFERRED_SIZE, 236,
                                                                                                 GroupLayout.PREFERRED_SIZE))
-                                                                        .addPreferredGap(ComponentPlacement.RELATED, 130, Short.MAX_VALUE))).addContainerGap()));
+                                                                        .addPreferredGap(ComponentPlacement.RELATED, 125, Short.MAX_VALUE))).addContainerGap()));
         gl_panelBusqueda.setVerticalGroup(gl_panelBusqueda.createParallelGroup(Alignment.LEADING).addGroup(
                 gl_panelBusqueda
                         .createSequentialGroup()
@@ -248,9 +304,13 @@ public class VerSociosPorNombre extends javax.swing.JPanel {
                                 gl_panelBusqueda.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(txtTelefono, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE).addComponent(lblTelefono)
                                         .addComponent(lblCelular, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtCelular, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)).addGap(21)
-                        .addGroup(gl_panelBusqueda.createParallelGroup(Alignment.BASELINE).addComponent(btnBuscar).addComponent(chckbxCobrador)).addGap(18)
-                        .addComponent(panel, GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE).addContainerGap()));
+                                        .addComponent(txtCelular, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+                        .addGap(21)
+                        .addGroup(
+                                gl_panelBusqueda.createParallelGroup(Alignment.BASELINE).addComponent(btnBuscar)
+                                        .addComponent(lblCobrador, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cmbCobrador, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addGap(18).addComponent(panel, GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE).addContainerGap()));
         scrollPane = new JScrollPane();
         scrollPane.setBorder(null);
         scrollPane.setViewportBorder(null);

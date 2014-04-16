@@ -16,64 +16,54 @@ public class AccessDataBase {
     private static String DB_USER = "postgres";
     private static String DB_PASS = "admin";
 
-    public List<Socio> obtSociosPorNombre(String primerNombre, String segundoNombre, String primerApellido, String segundoApellido) throws SQLException {
+    public List<Socio> obtSociosPorNombre(Long nroSocio, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido,
+            String direccion, String telefono, String celular, String cobrador) throws SQLException {
         List<Socio> listaSocios = new ArrayList<Socio>();
         Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
         connection.setAutoCommit(false);
-        boolean soyPrimero = true;
         String sql = "SELECT * FROM socios s WHERE";
+        if (nroSocio != null) {
+            sql += " s.nro_socio = " + nroSocio + " AND";
+        }
         if (primerNombre != null && !primerNombre.isEmpty()) {
-            if (soyPrimero) {
-                sql += " s.primer_nombre = '" + primerNombre + "'";
-                soyPrimero = false;
-            }
+            sql += " s.primer_nombre = '" + primerNombre + "' AND";
         }
         if (segundoNombre != null && !segundoNombre.isEmpty()) {
-            if (soyPrimero) {
-                sql += " s.segundo_nombre = '" + segundoNombre + "'";
-                soyPrimero = false;
-            } else {
-                sql += " and s.segundo_nombre = '" + segundoNombre + "'";
-            }
+            sql += " s.segundo_nombre = '" + segundoNombre + "' AND";
         }
         if (primerApellido != null && !primerApellido.isEmpty()) {
-            if (soyPrimero) {
-                sql += " s.primer_apellido = '" + primerApellido + "'";
-                soyPrimero = false;
-            } else {
-                sql += " and s.primer_apellido = '" + primerApellido + "'";
-            }
+            sql += " s.primer_apellido = '" + primerApellido + "' AND";
         }
         if (segundoApellido != null && !segundoApellido.isEmpty()) {
-            if (soyPrimero) {
-                sql += " s.segundo_apellido = '" + segundoApellido + "'";
-                soyPrimero = false;
-            } else {
-                sql += " and s.segundo_apellido = '" + segundoApellido + "'";
-            }
+            sql += " s.segundo_apellido = '" + segundoApellido + "' AND";
         }
+        if (direccion != null && !direccion.isEmpty()) {
+            sql += " s.direccion = '" + direccion + "' AND";
+        }
+        if (telefono != null && !telefono.isEmpty()) {
+            sql += " s.telefono = '" + telefono + "' AND";
+        }
+        if (celular != null && !celular.isEmpty()) {
+            sql += " s.celular = '" + celular + "' AND";
+        }
+        if (cobrador != null && !cobrador.isEmpty()) {
+            sql += " s.cobrador = '" + cobrador + "' AND";
+        }
+        //Elimino el ultimo 'AND' que quedo de mas en la consulta
+        sql = sql.substring(0, sql.length() - 3);
         PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             Socio socio = new Socio();
-            Long nroSocio = rs.getLong("nro_socio");
-            String pNombre = rs.getString("primer_nombre");
-            String sNombre = rs.getString("segundo_nombre");
-            String pApellido = rs.getString("primer_apellido");
-            String sApellido = rs.getString("segundo_apellido");
-            String telefono = rs.getString("telefono");
-            String celular = rs.getString("celular");
-            String direccion = rs.getString("direccion");
-            String cobrador = rs.getString("cobrador");
-            socio.setNroSocio(nroSocio);
-            socio.setPrimerNombre(pNombre);
-            socio.setSegundoNombre(sNombre);
-            socio.setPrimerApellido(pApellido);
-            socio.setSegundoApellido(sApellido);
-            socio.setTelefono(telefono);
-            socio.setCelular(celular);
-            socio.setDireccion(direccion);
-            socio.setCobrador(cobrador);
+            socio.setNroSocio(rs.getLong("nro_socio"));
+            socio.setPrimerNombre(rs.getString("primer_nombre"));
+            socio.setSegundoNombre(rs.getString("segundo_nombre"));
+            socio.setPrimerApellido(rs.getString("primer_apellido"));
+            socio.setSegundoApellido(rs.getString("segundo_apellido"));
+            socio.setTelefono(rs.getString("telefono"));
+            socio.setCelular(rs.getString("celular"));
+            socio.setDireccion(rs.getString("direccion"));
+            socio.setCobrador(rs.getString("cobrador"));
             listaSocios.add(socio);
         }
         connection.close();
