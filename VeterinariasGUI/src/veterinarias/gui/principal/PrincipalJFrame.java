@@ -14,7 +14,8 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import veterinarias.principal.actions.BuscarMascotaAction;
-import veterinarias.principal.actions.BuscarSocioPorNombreAction;
+import veterinarias.principal.actions.BuscarSocioAction;
+import veterinarias.principal.actions.NuevoSocioAction;
 
 public class PrincipalJFrame extends JFrame {
 
@@ -63,18 +64,29 @@ public class PrincipalJFrame extends JFrame {
         setBounds(x.intValue(), y.intValue(), width.intValue(), height.intValue());
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
-        JMenu mnBusquedas = new JMenu("B\u00FAsquedas");
-        menuBar.add(mnBusquedas);
-        JMenu mnBuscarSocios = new JMenu("Buscar Socios");
-        mnBusquedas.add(mnBuscarSocios);
-        JMenuItem mntmPorNombre = new JMenuItem("Por Nombre");
-        mntmPorNombre.setAction(new BuscarSocioPorNombreAction());
-        mnBuscarSocios.add(mntmPorNombre);
-        JMenu mnBuscarMascotas = new JMenu("Buscar Mascotas");
-        mnBusquedas.add(mnBuscarMascotas);
-        JMenuItem mntmBuscarMascotaPor = new JMenuItem("Buscar Mascota por Nombre");
-        mnBuscarMascotas.add(mntmBuscarMascotaPor);
-        mntmBuscarMascotaPor.setAction(new BuscarMascotaAction());
+        JMenu mnSesion = new JMenu("Sesi\u00F3n");
+        menuBar.add(mnSesion);
+        JMenuItem mntmIniciarSesion = new JMenuItem("Iniciar Sesi\u00F3n");
+        mnSesion.add(mntmIniciarSesion);
+        JMenuItem mntmCerrarSesion = new JMenuItem("Cerrar Sesi\u00F3n");
+        mnSesion.add(mntmCerrarSesion);
+        JMenuItem mntmCrearUsuario = new JMenuItem("Crear Usuario");
+        mnSesion.add(mntmCrearUsuario);
+        JMenu mnSocios = new JMenu("Socios");
+        menuBar.add(mnSocios);
+        JMenuItem mntmNuevoSocio = new JMenuItem("Nuevo Socio");
+        mntmNuevoSocio.setAction(new NuevoSocioAction());
+        mnSocios.add(mntmNuevoSocio);
+        JMenuItem mntmBuscarSocio = new JMenuItem("Buscar Socio");
+        mntmBuscarSocio.setAction(new BuscarSocioAction());
+        mnSocios.add(mntmBuscarSocio);
+        JMenuItem mntmEliminarSocio = new JMenuItem("Eliminar Socio");
+        mnSocios.add(mntmEliminarSocio);
+        JMenu mnMascotas = new JMenu("Mascotas");
+        menuBar.add(mnMascotas);
+        JMenuItem mntmBuscarMascotas = new JMenuItem("Buscar Mascotas");
+        mntmBuscarMascotas.setAction(new BuscarMascotaAction());
+        mnMascotas.add(mntmBuscarMascotas);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));

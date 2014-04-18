@@ -1,5 +1,5 @@
 package veterinarias.generics;
 
-public class GenericSolver {
 
+public class GenericSolver {
 }

@@ -20,7 +20,6 @@ public class AccessDataBase {
             String direccion, String telefono, String celular, String cobrador) throws SQLException {
         List<Socio> listaSocios = new ArrayList<Socio>();
         Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-        connection.setAutoCommit(false);
         String sql = "SELECT * FROM socios s WHERE";
         if (nroSocio != null) {
             sql += " s.nro_socio = " + nroSocio + " AND";
@@ -66,7 +65,28 @@ public class AccessDataBase {
             socio.setCobrador(rs.getString("cobrador"));
             listaSocios.add(socio);
         }
+        ps.close();
         connection.close();
         return listaSocios;
+    }
+
+    public void agregarNuevoSocio(Long nroSocio, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion,
+            String telefono, String celular, String cobrador) throws SQLException {
+        Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        String sql = "INSERT INTO socios (nro_socio, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, telefono, celular, direccion, cobrador) "
+                + "VALUES (?,?,?,?,?,?,?,?,?)";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setLong(1, nroSocio);
+        ps.setString(2, primerNombre);
+        ps.setString(3, segundoNombre);
+        ps.setString(4, primerApellido);
+        ps.setString(5, segundoApellido);
+        ps.setString(6, telefono);
+        ps.setString(7, celular);
+        ps.setString(8, direccion);
+        ps.setString(9, cobrador);
+        ps.executeUpdate();
+        ps.close();
+        connection.close();
     }
 }

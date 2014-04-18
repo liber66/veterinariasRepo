@@ -3,7 +3,6 @@ package veterinarias.consultas.jpanels;
 import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -16,7 +15,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import veterinarias.consultas.actions.BotonBuscarSocioAction;
 import veterinarias.pruebas.ImagePanel;
 
 public class VerSocios extends javax.swing.JPanel {
@@ -32,7 +30,7 @@ public class VerSocios extends javax.swing.JPanel {
     private JTextField txtPrimerApellido;
     private JTextField txtPrimerNombre;
     private JTextField txtSegundoNombre;
-    private final Action btnBuscarSocioAction = new BotonBuscarSocioAction(this);
+    //private final Action btnBuscarSocioAction = new BotonBuscarSocioAction(this);
     private JPanel panel;
     private JScrollPane scrollPane;
     private JTable jTable1;
@@ -169,7 +167,7 @@ public class VerSocios extends javax.swing.JPanel {
         txtSegundoNombre = new JTextField();
         txtSegundoNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
         JButton btnBuscar = new JButton("Buscar");
-        btnBuscar.setAction(btnBuscarSocioAction);
+        //btnBuscar.setAction(btnBuscarSocioAction);
         panel = new JPanel();
         panel.setBorder(null);
         panel.setBackground(Color.WHITE);

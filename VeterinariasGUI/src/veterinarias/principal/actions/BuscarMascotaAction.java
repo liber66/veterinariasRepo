@@ -11,7 +11,7 @@ public class BuscarMascotaAction extends AbstractAction {
     private static final long serialVersionUID = 1L;
 
     public BuscarMascotaAction() {
-        putValue(NAME, "Por Nombre");
+        putValue(NAME, "Buscar Mascota");
         putValue(SHORT_DESCRIPTION, "Buscar Mascota");
     }
 

@@ -6,16 +6,16 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 
-import veterinarias.consultas.jpanels.VerSocios;
+import veterinarias.consultas.jpanels.BuscarSocio;
 import veterinarias.gui.generics.GenericDialog;
 import veterinarias.gui.principal.PrincipalJFrame;
 
-public class BuscarSocioPorNombreAction extends AbstractAction {
+public class BuscarSocioAction extends AbstractAction {
 
     private static final long serialVersionUID = 1L;
 
-    public BuscarSocioPorNombreAction() {
-        putValue(NAME, "Por Nombre");
+    public BuscarSocioAction() {
+        putValue(NAME, "Buscar Socio");
         putValue(SHORT_DESCRIPTION, "Buscar Socio por nombre");
     }
 
@@ -27,6 +27,8 @@ public class BuscarSocioPorNombreAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        cargarDialogo(new VerSocios(), "Ver Socios Por Nombre");
+        //cargarDialogo(new VerSocios(), "Ver Socios Por Nombre");
+        BuscarSocio buscarSocio = new BuscarSocio();
+        buscarSocio.setVisible(true);
     }
 }
