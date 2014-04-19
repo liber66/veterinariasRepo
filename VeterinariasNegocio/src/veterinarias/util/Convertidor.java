@@ -1,6 +1,8 @@
 package veterinarias.util;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import veterinarias.entities.Socio;
@@ -37,5 +39,13 @@ public class Convertidor {
             socioTrans.setTelefono(socio.getTelefono());
         }
         return socioTrans;
+    }
+
+    public Date convertCalendarToSQLDate(Calendar calendar) {
+        Date date = null;
+        if (calendar != null) {
+            date = new Date(calendar.getTimeInMillis());
+        }
+        return date;
     }
 }

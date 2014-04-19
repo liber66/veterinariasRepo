@@ -19,12 +19,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import veterinarias.mascotas.actions.BotonAgregarFichaClinicaAction;
 import veterinarias.mascotas.actions.BotonAgregarMascotaAction;
 import veterinarias.pruebas.ImagePanel;
 
 public class NuevasMascotas extends JFrame {
 
     private static final long serialVersionUID = 1L;
+    public static NuevasMascotas mainMenu = null;
     private ImagePanel contentPane;
     private GroupLayout gl_contentPane;
     //Labels
@@ -54,8 +56,10 @@ public class NuevasMascotas extends JFrame {
     private GroupLayout gl_pnlMascotas;
     //Botones
     private JButton btnAgregarMascota;
+    private JButton btnAgregarFichaClinica;
     //Acciones
     private BotonAgregarMascotaAction btnAgregarMascotaAction = new BotonAgregarMascotaAction(this);
+    private BotonAgregarFichaClinicaAction btnAgregarFichaClinicaAction = new BotonAgregarFichaClinicaAction(this);
 
     /**
      * Create the frame.
@@ -70,6 +74,13 @@ public class NuevasMascotas extends JFrame {
         this.initComponents();
         contentPane.setImagen("perro.jpg");
         contentPane.setVisible(true);
+    }
+
+    public static NuevasMascotas getMainMenu() {
+        if (mainMenu == null) {
+            mainMenu = new NuevasMascotas();
+        }
+        return mainMenu;
     }
 
     private void initComponents() {
@@ -128,6 +139,8 @@ public class NuevasMascotas extends JFrame {
         //Botones
         btnAgregarMascota = new JButton("Agregar Mascota");
         btnAgregarMascota.setAction(btnAgregarMascotaAction);
+        btnAgregarFichaClinica = new JButton("Agregar Ficha Clinica");
+        btnAgregarFichaClinica.setAction(btnAgregarFichaClinicaAction);
         //Armo Group Layout de Panel Socios
         gl_pnlMascotas = new GroupLayout(pnlMascotas);
         pnlMascotas.setLayout(gl_pnlMascotas);
@@ -176,6 +189,7 @@ public class NuevasMascotas extends JFrame {
         pGroupSegundasLabels.addComponent(lblNombreMascota, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
         pGroupSegundasLabels.addComponent(lblPeso, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
         pGroupSegundasLabels.addComponent(lblRaza, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
+        pGroupSegundasLabels.addComponent(btnAgregarFichaClinica, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
         //ParallelGroup segundos textfields
         ParallelGroup pGroupSegundosTexts = gl_contentPane.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING);
         pGroupSegundosTexts.addComponent(txtNombreMascota, GroupLayout.DEFAULT_SIZE, 15, 236);
@@ -191,6 +205,15 @@ public class NuevasMascotas extends JFrame {
         sGroupBusqueda.addGroup(pGroupSegundasLabels);
         sGroupBusqueda.addContainerGap(20, 50);
         sGroupBusqueda.addGroup(pGroupSegundosTexts);
+        //ParallelGroup agregar texto informacion
+        /* ParallelGroup pGroupTextInformacion = gl_contentPane.createParallelGroup(Alignment.LEADING);
+         SequentialGroup sGroupInformacion = gl_contentPane.createSequentialGroup();
+         sGroupInformacion.addGap(8);
+         sGroupInformacion.addComponent(lblInformacion, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
+         sGroupInformacion.addGap(85);
+         sGroupInformacion.addComponent(txtInformacion, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 750);
+         pGroupTextInformacion.addGroup(sGroupBusqueda);
+         pGroupTextInformacion.addGroup(sGroupInformacion);*/
         //ParallelGroup tabla de mascotas agregadas
         ParallelGroup pGroupTablaMascotas = gl_contentPane.createParallelGroup(Alignment.LEADING);
         pGroupTablaMascotas.addComponent(lblMascotasIngresadas);
@@ -215,7 +238,7 @@ public class NuevasMascotas extends JFrame {
         sGroupPrimerasLabels.addComponent(lblFechaNacimiento, GroupLayout.DEFAULT_SIZE, 10, 10);
         sGroupPrimerasLabels.addGap(5);
         sGroupPrimerasLabels.addComponent(lblEspecie, GroupLayout.DEFAULT_SIZE, 10, 10);
-        sGroupPrimerasLabels.addGap(5);
+        sGroupPrimerasLabels.addGap(10);
         sGroupPrimerasLabels.addComponent(lblSexo, GroupLayout.DEFAULT_SIZE, 20, 20);
         //SequentialGroup primeros textfields
         SequentialGroup sGroupPrimerosTexts = gl_contentPane.createSequentialGroup();
@@ -228,8 +251,9 @@ public class NuevasMascotas extends JFrame {
         pGroupRadioButtons.addComponent(rdbtmSexoMacho, GroupLayout.DEFAULT_SIZE, 30, 30);
         pGroupRadioButtons.addGap(10);
         pGroupRadioButtons.addComponent(rdbtmSexoHembra, GroupLayout.DEFAULT_SIZE, 30, 30);
+        sGroupPrimerosTexts.addGap(5);
         sGroupPrimerosTexts.addGroup(pGroupRadioButtons);
-        sGroupPrimerosTexts.addContainerGap();
+        //sGroupPrimerosTexts.addContainerGap();
         //SequentialGroup segundas labels
         SequentialGroup sGroupSegundasLabels = gl_contentPane.createSequentialGroup();
         sGroupSegundasLabels.addGap(5);
@@ -238,12 +262,20 @@ public class NuevasMascotas extends JFrame {
         sGroupSegundasLabels.addComponent(lblPeso, GroupLayout.DEFAULT_SIZE, 10, 10);
         sGroupSegundasLabels.addGap(5);
         sGroupSegundasLabels.addComponent(lblRaza, GroupLayout.DEFAULT_SIZE, 10, 10);
+        sGroupSegundasLabels.addGap(10);
+        sGroupSegundasLabels.addComponent(btnAgregarFichaClinica, GroupLayout.DEFAULT_SIZE, 10, 10);
         //SequentialGroup segundos textfields
         SequentialGroup sGroupSegundosTexts = gl_contentPane.createSequentialGroup();
         sGroupSegundosTexts.addContainerGap();
         sGroupSegundosTexts.addComponent(txtNombreMascota, GroupLayout.DEFAULT_SIZE, 10, 10);
         sGroupSegundosTexts.addComponent(txtPeso, GroupLayout.DEFAULT_SIZE, 10, 10);
         sGroupSegundosTexts.addComponent(txtRaza, GroupLayout.DEFAULT_SIZE, 10, 10);
+        //ParallelGroup informacion
+        /*ParallelGroup pGroupInformacion = gl_contentPane.createParallelGroup(GroupLayout.Alignment.LEADING);
+        pGroupInformacion.addGap(8);
+        pGroupInformacion.addComponent(lblInformacion, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
+        pGroupInformacion.addGap(85);
+        pGroupInformacion.addComponent(txtInformacion, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 750);*/
         //ParallelGroup campos de busqueda
         ParallelGroup pGroupBusqueda = gl_contentPane.createParallelGroup(GroupLayout.Alignment.LEADING);
         pGroupBusqueda.addGroup(sGroupPrimerasLabels);
@@ -257,6 +289,7 @@ public class NuevasMascotas extends JFrame {
         SequentialGroup sGroupTablaMascotas = gl_contentPane.createSequentialGroup();
         sGroupTablaMascotas.addGroup(pGroupBusqueda);
         sGroupTablaMascotas.addGap(10);
+        //sGroupTablaMascotas.addGroup(pGroupInformacion);
         sGroupTablaMascotas.addComponent(lblMascotasIngresadas);
         sGroupTablaMascotas.addGap(10);
         sGroupTablaMascotas.addComponent(pnlMascotas, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE);
@@ -265,5 +298,69 @@ public class NuevasMascotas extends JFrame {
         //Result
         result.addGroup(sGroupTablaMascotas);
         return result;
+    }
+
+    public JTextField getTxtNroSocio() {
+        return txtNroSocio;
+    }
+
+    public void setTxtNroSocio(JTextField txtNroSocio) {
+        this.txtNroSocio = txtNroSocio;
+    }
+
+    public JTextField getTxtNombreMascota() {
+        return txtNombreMascota;
+    }
+
+    public void setTxtNombreMascota(JTextField txtNombreMascota) {
+        this.txtNombreMascota = txtNombreMascota;
+    }
+
+    public JTextField getTxtFechaNacimiento() {
+        return txtFechaNacimiento;
+    }
+
+    public void setTxtFechaNacimiento(JTextField txtFechaNacimiento) {
+        this.txtFechaNacimiento = txtFechaNacimiento;
+    }
+
+    public JTextField getTxtEspecie() {
+        return txtEspecie;
+    }
+
+    public void setTxtEspecie(JTextField txtEspecie) {
+        this.txtEspecie = txtEspecie;
+    }
+
+    public JTextField getTxtRaza() {
+        return txtRaza;
+    }
+
+    public void setTxtRaza(JTextField txtRaza) {
+        this.txtRaza = txtRaza;
+    }
+
+    public JTextField getTxtPeso() {
+        return txtPeso;
+    }
+
+    public void setTxtPeso(JTextField txtPeso) {
+        this.txtPeso = txtPeso;
+    }
+
+    public ButtonGroup getRdbtmSexoGroup() {
+        return rdbtmSexoGroup;
+    }
+
+    public void setRdbtmSexoGroup(ButtonGroup rdbtmSexoGroup) {
+        this.rdbtmSexoGroup = rdbtmSexoGroup;
+    }
+
+    public JScrollPane getScrPnlMascotas() {
+        return scrPnlMascotas;
+    }
+
+    public void setScrPnlMascotas(JScrollPane scrPnlMascotas) {
+        this.scrPnlMascotas = scrPnlMascotas;
     }
 }

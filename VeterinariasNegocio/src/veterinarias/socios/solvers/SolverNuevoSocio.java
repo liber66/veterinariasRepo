@@ -22,7 +22,6 @@ public class SolverNuevoSocio extends GenericSolver {
     private String celular;
     private String cobrador;
 
-    //Datos result
     public void loadContract(GenericContract genericContract) {
         ContractNuevoSocio contractNuevoSocio = (ContractNuevoSocio) genericContract;
         nroSocio = contractNuevoSocio.getNroSocio();

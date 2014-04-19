@@ -1,11 +1,13 @@
 package veterinarias.util;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import veterinarias.entities.Socio;
@@ -85,6 +87,28 @@ public class AccessDataBase {
         ps.setString(7, celular);
         ps.setString(8, direccion);
         ps.setString(9, cobrador);
+        ps.executeUpdate();
+        ps.close();
+        connection.close();
+    }
+
+    public void agregarNuevaMascota(Long nroSocio, String nombreMascota, Calendar fechaNacimiento, Long peso, String informacion, String especie, String raza,
+            String sexo, String muerta) throws SQLException {
+        Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        Convertidor convertidor = new Convertidor();
+        String sql = "INSERT INTO mascotas(nro_socio, nombre, fecha_nacimiento, peso, informacion, especie, raza, sexo, muerta)"
+                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setLong(1, nroSocio);
+        ps.setString(2, nombreMascota);
+        Date sqlDateFechaNac = convertidor.convertCalendarToSQLDate(fechaNacimiento);
+        ps.setDate(3, sqlDateFechaNac);
+        ps.setLong(4, peso);
+        ps.setString(5, informacion);
+        ps.setString(6, especie);
+        ps.setString(7, raza);
+        ps.setString(8, sexo);
+        ps.setString(9, muerta);
         ps.executeUpdate();
         ps.close();
         connection.close();
