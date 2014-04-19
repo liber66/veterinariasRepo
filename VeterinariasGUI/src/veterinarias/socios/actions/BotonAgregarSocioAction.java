@@ -9,10 +9,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
-import veterinarias.consultas.jpanels.NuevoSocio;
 import veterinarias.gui.utils.tables.models.CeldasNoEditablesModel;
 import veterinarias.objects.trans.SocioTrans;
 import veterinarias.socios.contracts.ContractNuevoSocio;
+import veterinarias.socios.jframes.NuevoSocio;
 import veterinarias.socios.results.ResultNuevoSocio;
 import veterinarias.socios.solvers.SolverNuevoSocio;
 

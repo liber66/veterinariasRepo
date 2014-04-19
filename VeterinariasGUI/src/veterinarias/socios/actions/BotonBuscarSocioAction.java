@@ -11,11 +11,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 import veterinarias.consultas.contracts.ContractObtSocios;
-import veterinarias.consultas.jpanels.BuscarSocio;
 import veterinarias.consultas.results.ResultObtSocios;
 import veterinarias.consultas.solvers.SolverObtSocios;
 import veterinarias.gui.utils.tables.models.CeldasNoEditablesModel;
 import veterinarias.objects.trans.SocioTrans;
+import veterinarias.socios.jframes.BuscarSocio;
 
 public class BotonBuscarSocioAction extends AbstractAction {
 

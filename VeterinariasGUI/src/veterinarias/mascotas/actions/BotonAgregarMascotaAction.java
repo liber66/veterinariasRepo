@@ -4,21 +4,20 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import veterinarias.consultas.jpanels.NuevoSocio;
+import veterinarias.socios.jframes.NuevasMascotas;
 
 public class BotonAgregarMascotaAction extends AbstractAction {
 
     private static final long serialVersionUID = 1L;
-    private NuevoSocio nuevoSocio;
+    private NuevasMascotas nuevasMascotas;
 
-    public BotonAgregarMascotaAction(NuevoSocio nuevoSocio) {
+    public BotonAgregarMascotaAction(NuevasMascotas nuevasMascotas) {
         putValue(NAME, "Agregar Mascota");
         putValue(SHORT_DESCRIPTION, "Agregar una Mascota");
-        this.nuevoSocio = nuevoSocio;
+        this.nuevasMascotas = nuevasMascotas;
     }
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
     }
 }

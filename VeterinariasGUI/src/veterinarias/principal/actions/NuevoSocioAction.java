@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import veterinarias.consultas.jpanels.NuevoSocio;
+import veterinarias.socios.jframes.NuevoSocio;
 
 public class NuevoSocioAction extends AbstractAction {
 

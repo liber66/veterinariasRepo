@@ -6,9 +6,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 
-import veterinarias.consultas.jpanels.BuscarSocio;
 import veterinarias.gui.generics.GenericDialog;
 import veterinarias.gui.principal.PrincipalJFrame;
+import veterinarias.socios.jframes.BuscarSocio;
 
 public class BuscarSocioAction extends AbstractAction {
 

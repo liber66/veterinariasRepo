@@ -1,4 +1,4 @@
-package veterinarias.consultas.jpanels;
+package veterinarias.socios.jframes;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -20,10 +20,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import veterinarias.principal.actions.NuevasMascotasAction;
 import veterinarias.pruebas.ImagePanel;
-import veterinarias.socios.actions.BotonBuscarSocioAction;
+import veterinarias.socios.actions.BotonAgregarSocioAction;
 
-public class BuscarSocio extends JFrame {
+public class NuevoSocio extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private ImagePanel contentPane;
@@ -38,6 +39,7 @@ public class BuscarSocio extends JFrame {
     private JLabel lblTelefono;
     private JLabel lblCelular;
     private JLabel lblCobrador;
+    private JLabel lblSocioIngresado;
     //Texts
     private JTextField txtNroSocio;
     private JTextField txtPrimerNombre;
@@ -48,32 +50,34 @@ public class BuscarSocio extends JFrame {
     private JTextField txtTelefono;
     private JTextField txtCelular;
     private JComboBox<String> cmbCobrador;
-    private JButton btnBuscar;
+    //Botones
+    private JButton btnAgregarSocio;
+    private JButton btnAgregarMascota;
     //Tabla
     private JPanel pnlSocios;
     private JScrollPane scrPnlSocios;
     private JTable tbleSocios;
     private GroupLayout gl_pnlSocios;
     //Acciones
-    private final Action btnBuscarSocioAction = new BotonBuscarSocioAction(this);
+    private final Action btnAgregarSocioAction = new BotonAgregarSocioAction(this);
+    private final Action btnAgregarMascotasAction = new NuevasMascotasAction();
 
     /**
      * Create the frame.
      */
-    public BuscarSocio() {
+    public NuevoSocio() {
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         int ancho = d.width * 2 / 3;
         int alto = d.height * 2 / 3;
         setSize(ancho, alto);
         setLocation(d.width / 2 - ancho / 2, d.height / 2 - alto / 2);
         setMinimumSize(new Dimension(ancho, alto));
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.initComponents();
         contentPane.setImagen("perro.jpg");
         contentPane.setVisible(true);
     }
 
-    protected void initComponents() {
+    private void initComponents() {
         contentPane = new ImagePanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
@@ -96,6 +100,8 @@ public class BuscarSocio extends JFrame {
         lblCelular.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
         lblCobrador = new JLabel("Cobrador:");
         lblCobrador.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        lblSocioIngresado = new JLabel("J.C. Acabas de Ingresar el Siguiente Socio... ");
+        lblSocioIngresado.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
         //Inicializo campos de entrada
         txtPrimerNombre = new JTextField();
         txtPrimerNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -113,10 +119,8 @@ public class BuscarSocio extends JFrame {
         txtTelefono.setFont(new Font("Tahoma", Font.PLAIN, 12));
         txtCelular = new JTextField();
         txtCelular.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        cmbCobrador = new JComboBox<String>(new DefaultComboBoxModel<String>(new String[] { "", "Si", "No" }));
+        cmbCobrador = new JComboBox<String>(new DefaultComboBoxModel<String>(new String[] { "No", "Si" }));
         cmbCobrador.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        btnBuscar = new JButton("Buscar");
-        btnBuscar.setAction(btnBuscarSocioAction);
         //Inicializo tabla de socios
         pnlSocios = new JPanel();
         pnlSocios.setBorder(null);
@@ -128,6 +132,12 @@ public class BuscarSocio extends JFrame {
         scrPnlSocios.getViewport().setOpaque(false);
         tbleSocios = new JTable();
         scrPnlSocios.setViewportView(tbleSocios);
+        //Botones
+        btnAgregarSocio = new JButton("Agregar Socio");
+        btnAgregarSocio.setAction(btnAgregarSocioAction);
+        btnAgregarMascota = new JButton("Agregar Mascota");
+        btnAgregarMascota.setAction(btnAgregarMascotasAction);
+        btnAgregarMascota.setVisible(false);
         //Armo Group Layout de Panel Socios
         gl_pnlSocios = new GroupLayout(pnlSocios);
         pnlSocios.setLayout(gl_pnlSocios);
@@ -190,12 +200,18 @@ public class BuscarSocio extends JFrame {
         sGroupBusqueda.addGroup(pGroupSegundasLabels);
         sGroupBusqueda.addContainerGap(20, 50);
         sGroupBusqueda.addGroup(pGroupSegundosTexts);
+        //ParallelGroup tabla de socio agregado
+        ParallelGroup pGroupTablaSocio = gl_contentPane.createParallelGroup(Alignment.LEADING);
+        pGroupTablaSocio.addComponent(lblSocioIngresado);
+        pGroupTablaSocio.addGap(10);
+        pGroupTablaSocio.addComponent(pnlSocios, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE);
         //Result
         result.addGroup(sGroupBusqueda);
-        result.addGap(20, 20, 100);
-        result.addComponent(pnlSocios, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE);
+        result.addGap(20);
+        result.addGroup(pGroupTablaSocio);
         result.addGap(5);
-        result.addComponent(btnBuscar, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 15, 15);
+        result.addComponent(btnAgregarSocio, Alignment.CENTER, GroupLayout.DEFAULT_SIZE, 15, 15);
+        result.addComponent(btnAgregarMascota, Alignment.CENTER, GroupLayout.DEFAULT_SIZE, 15, 15);
         return result;
     }
 
@@ -213,7 +229,6 @@ public class BuscarSocio extends JFrame {
         sGroupPrimerasLabels.addComponent(lblTelefono, GroupLayout.DEFAULT_SIZE, 10, 10);
         sGroupPrimerasLabels.addGap(5);
         sGroupPrimerasLabels.addComponent(lblCobrador, GroupLayout.DEFAULT_SIZE, 10, 10);
-        sGroupPrimerasLabels.addGap(5);
         //SequentialGroup primeros textfields
         SequentialGroup sGroupPrimerosTexts = gl_contentPane.createSequentialGroup();
         sGroupPrimerosTexts.addContainerGap();
@@ -252,10 +267,13 @@ public class BuscarSocio extends JFrame {
         //SequentialGroup sGroupTablaSocios
         SequentialGroup sGroupTablaSocios = gl_contentPane.createSequentialGroup();
         sGroupTablaSocios.addGroup(pGroupBusqueda);
-        sGroupTablaSocios.addGap(20, 20, 100);
+        sGroupTablaSocios.addGap(10);
+        sGroupTablaSocios.addComponent(lblSocioIngresado);
+        sGroupTablaSocios.addGap(10);
         sGroupTablaSocios.addComponent(pnlSocios, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE);
         sGroupTablaSocios.addGap(5);
-        sGroupTablaSocios.addComponent(btnBuscar, GroupLayout.DEFAULT_SIZE, 15, 15);
+        sGroupTablaSocios.addComponent(btnAgregarSocio, GroupLayout.DEFAULT_SIZE, 15, 15);
+        sGroupTablaSocios.addComponent(btnAgregarMascota, GroupLayout.DEFAULT_SIZE, 15, 15);
         //Result
         result.addGroup(sGroupTablaSocios);
         return result;
@@ -347,5 +365,15 @@ public class BuscarSocio extends JFrame {
 
     public void setScrPnlSocios(JScrollPane scrPnlSocios) {
         this.scrPnlSocios = scrPnlSocios;
+    }
+
+    public void mostrarBotonAgregarMascota() {
+        btnAgregarSocio.setVisible(false);
+        btnAgregarMascota.setVisible(true);
+    }
+
+    public void mostrarBotonAgregarSocio() {
+        btnAgregarMascota.setVisible(false);
+        btnAgregarSocio.setVisible(true);
     }
 }

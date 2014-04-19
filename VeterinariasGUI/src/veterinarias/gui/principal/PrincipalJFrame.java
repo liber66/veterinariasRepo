@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import veterinarias.principal.actions.BuscarMascotaAction;
 import veterinarias.principal.actions.BuscarSocioAction;
+import veterinarias.principal.actions.NuevasMascotasAction;
 import veterinarias.principal.actions.NuevoSocioAction;
 
 public class PrincipalJFrame extends JFrame {
@@ -84,6 +85,9 @@ public class PrincipalJFrame extends JFrame {
         mnSocios.add(mntmEliminarSocio);
         JMenu mnMascotas = new JMenu("Mascotas");
         menuBar.add(mnMascotas);
+        JMenuItem mntmNuevasMascotas = new JMenuItem("Nuevas Mascotas");
+        mntmNuevasMascotas.setAction(new NuevasMascotasAction());
+        mnMascotas.add(mntmNuevasMascotas);
         JMenuItem mntmBuscarMascotas = new JMenuItem("Buscar Mascotas");
         mntmBuscarMascotas.setAction(new BuscarMascotaAction());
         mnMascotas.add(mntmBuscarMascotas);
