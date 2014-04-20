@@ -179,9 +179,9 @@ public class NuevasMascotas extends JFrame {
         pGroupPrimerasLabels.addComponent(lblSexo, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
         //ParallelGroup primeros textfields
         ParallelGroup pGroupPrimerosTexts = gl_contentPane.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING);
-        pGroupPrimerosTexts.addComponent(txtNroSocio, GroupLayout.DEFAULT_SIZE, 15, 236);
-        pGroupPrimerosTexts.addComponent(txtFechaNacimiento, GroupLayout.DEFAULT_SIZE, 15, 236);
-        pGroupPrimerosTexts.addComponent(txtEspecie, GroupLayout.DEFAULT_SIZE, 15, 236);
+        pGroupPrimerosTexts.addComponent(txtNroSocio, 130, 130, 236);
+        pGroupPrimerosTexts.addComponent(txtFechaNacimiento, 130, 130, 236);
+        pGroupPrimerosTexts.addComponent(txtEspecie, 130, 130, 236);
         //SequentialGroup radio buttons
         SequentialGroup sGroupRadioButtons = gl_contentPane.createSequentialGroup();
         sGroupRadioButtons.addComponent(rdbtmSexoMacho, GroupLayout.DEFAULT_SIZE, 10, 10);
@@ -193,12 +193,12 @@ public class NuevasMascotas extends JFrame {
         pGroupSegundasLabels.addComponent(lblNombreMascota, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
         pGroupSegundasLabels.addComponent(lblPeso, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
         pGroupSegundasLabels.addComponent(lblRaza, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
-        pGroupSegundasLabels.addComponent(btnAgregarFichaClinica, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 160);
+        pGroupSegundasLabels.addComponent(btnAgregarFichaClinica, GroupLayout.Alignment.LEADING, 160, 160, 160);
         //ParallelGroup segundos textfields
         ParallelGroup pGroupSegundosTexts = gl_contentPane.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING);
-        pGroupSegundosTexts.addComponent(txtNombreMascota, GroupLayout.DEFAULT_SIZE, 15, 236);
-        pGroupSegundosTexts.addComponent(txtPeso, GroupLayout.DEFAULT_SIZE, 15, 236);
-        pGroupSegundosTexts.addComponent(txtRaza, GroupLayout.DEFAULT_SIZE, 15, 236);
+        pGroupSegundosTexts.addComponent(txtNombreMascota, 130, 130, 236);
+        pGroupSegundosTexts.addComponent(txtPeso, 130, 130, 236);
+        pGroupSegundosTexts.addComponent(txtRaza, 130, 130, 236);
         //SequentialGroup 
         SequentialGroup sGroupBusqueda = gl_contentPane.createSequentialGroup();
         sGroupBusqueda.addContainerGap();
