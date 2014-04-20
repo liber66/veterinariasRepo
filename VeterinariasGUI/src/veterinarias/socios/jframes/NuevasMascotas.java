@@ -29,6 +29,10 @@ public class NuevasMascotas extends JFrame {
     public static NuevasMascotas mainMenu = null;
     private ImagePanel contentPane;
     private GroupLayout gl_contentPane;
+    //Atributos
+    private String informacion;
+    private static String AGREGAR_FICHA_CLINICA = "Agregar Ficha Clinica";
+    private static String MODIFICAR_FICHA_CLINICA = "Modificar Ficha Clinica";
     //Labels
     private JLabel lblNroSocio;
     private JLabel lblNombreMascota;
@@ -59,7 +63,7 @@ public class NuevasMascotas extends JFrame {
     private JButton btnAgregarFichaClinica;
     //Acciones
     private BotonAgregarMascotaAction btnAgregarMascotaAction = new BotonAgregarMascotaAction(this);
-    private BotonAgregarFichaClinicaAction btnAgregarFichaClinicaAction = new BotonAgregarFichaClinicaAction(this);
+    private BotonAgregarFichaClinicaAction btnAgregarFichaClinicaAction = new BotonAgregarFichaClinicaAction(this, AGREGAR_FICHA_CLINICA);
 
     /**
      * Create the frame.
@@ -139,7 +143,7 @@ public class NuevasMascotas extends JFrame {
         //Botones
         btnAgregarMascota = new JButton("Agregar Mascota");
         btnAgregarMascota.setAction(btnAgregarMascotaAction);
-        btnAgregarFichaClinica = new JButton("Agregar Ficha Clinica");
+        btnAgregarFichaClinica = new JButton(AGREGAR_FICHA_CLINICA);
         btnAgregarFichaClinica.setAction(btnAgregarFichaClinicaAction);
         //Armo Group Layout de Panel Socios
         gl_pnlMascotas = new GroupLayout(pnlMascotas);
@@ -189,7 +193,7 @@ public class NuevasMascotas extends JFrame {
         pGroupSegundasLabels.addComponent(lblNombreMascota, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
         pGroupSegundasLabels.addComponent(lblPeso, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
         pGroupSegundasLabels.addComponent(lblRaza, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
-        pGroupSegundasLabels.addComponent(btnAgregarFichaClinica, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
+        pGroupSegundasLabels.addComponent(btnAgregarFichaClinica, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 160);
         //ParallelGroup segundos textfields
         ParallelGroup pGroupSegundosTexts = gl_contentPane.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING);
         pGroupSegundosTexts.addComponent(txtNombreMascota, GroupLayout.DEFAULT_SIZE, 15, 236);
@@ -362,5 +366,22 @@ public class NuevasMascotas extends JFrame {
 
     public void setScrPnlMascotas(JScrollPane scrPnlMascotas) {
         this.scrPnlMascotas = scrPnlMascotas;
+    }
+
+    public String getInformacion() {
+        return informacion;
+    }
+
+    public void setInformacion(String informacion) {
+        this.informacion = informacion;
+    }
+
+    public void agregarFichaClinica(String informacion) {
+        if (informacion == null || informacion.isEmpty()) {
+            btnAgregarFichaClinica.setText(AGREGAR_FICHA_CLINICA);
+        } else {
+            btnAgregarFichaClinica.setText(MODIFICAR_FICHA_CLINICA);
+        }
+        this.informacion = informacion;
     }
 }

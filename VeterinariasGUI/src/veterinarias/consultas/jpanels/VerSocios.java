@@ -1,6 +1,5 @@
 package veterinarias.consultas.jpanels;
 
-import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.DefaultComboBoxModel;
@@ -170,7 +169,6 @@ public class VerSocios extends javax.swing.JPanel {
         //btnBuscar.setAction(btnBuscarSocioAction);
         panel = new JPanel();
         panel.setBorder(null);
-        panel.setBackground(Color.WHITE);
         JLabel lblDireccion = new JLabel("Direcci\u00F3n:");
         lblDireccion.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
         txtDireccion = new JTextField();
