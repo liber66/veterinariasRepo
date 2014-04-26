@@ -1,6 +1,5 @@
 package veterinarias.mascotas.modals;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -20,6 +19,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import veterinarias.gui.generics.GenericTabbedPane;
 import veterinarias.mascotas.actions.BotonConfirmarFichaClinicaAction;
 import veterinarias.socios.jframes.NuevasMascotas;
 
@@ -29,7 +29,7 @@ public class IngresarFichaClinica extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private GroupLayout gl_contentPane;
-    private JTabbedPane tabbedPane;
+    private GenericTabbedPane tabbedPane;
     private JButton btnConfirmar;
     //Atributos
     private NuevasMascotas nuevasMascotas;
@@ -43,8 +43,6 @@ public class IngresarFichaClinica extends JPanel {
     private JTextArea txtInformacion;
     //Acciones
     private BotonConfirmarFichaClinicaAction btnConfirmarFichaClinicaAction = new BotonConfirmarFichaClinicaAction(this);
-    //Constantes
-    private static String SIMBOLO_AGREGAR_PESTANIA = "+";
 
     /**
      * Create the panel.
@@ -64,7 +62,7 @@ public class IngresarFichaClinica extends JPanel {
         txtInformacion.setWrapStyleWord(true);
         txtInformacion.setFont(new Font("Tahoma", Font.PLAIN, 12));
         //Inicializo TabbedPane y le agrego las pestañas
-        tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        tabbedPane = new GenericTabbedPane(JTabbedPane.TOP);
         tabbedPane.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -72,10 +70,7 @@ public class IngresarFichaClinica extends JPanel {
                 String nameComponent = tabbedPane.getSelectedComponent().getName();
                 if (nameComponent != null && nameComponent.equals("+")) {
                     JPanel panel = new JPanel();
-                    Component c = tabbedPane.getComponent(tabbedPane.getTabCount() - 1);
-                    tabbedPane.addTab("New tab", null, panel, null);
-                    tabbedPane.setComponentAt(tabbedPane.getTabCount() - 2, panel);
-                    tabbedPane.add(c);
+                    tabbedPane.addClosableTabWithAddTab("New tab", panel);
                     //Creo componentes nuevos
                     JLabel lblFecha = new JLabel("Fecha:");
                     lblFecha.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
@@ -99,7 +94,8 @@ public class IngresarFichaClinica extends JPanel {
             }
         });
         panelPestaniaInicial = new JPanel();
-        tabbedPane.addTab("New tab", null, panelPestaniaInicial, null);
+        tabbedPane.addClosableTabWithAddTab("New tab", panelPestaniaInicial);
+        //Creo componentes de pestaña inicial
         lblFecha = new JLabel("Fecha:");
         lblFecha.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
         dateChooser = new JDateChooser();
@@ -113,10 +109,6 @@ public class IngresarFichaClinica extends JPanel {
         //Agrego al group layout de la pestaña inicial los componentes
         gl_panelPestaniaInicial.setHorizontalGroup(horizontalGroupPanelInicial(gl_panelPestaniaInicial, lblFecha, dateChooser, scrPnlInformacion));
         gl_panelPestaniaInicial.setVerticalGroup(verticalGroupPanelInicial(gl_panelPestaniaInicial, lblFecha, dateChooser, scrPnlInformacion));
-        //Agrego pestaña con simbolo "+" para poder agregar nuevas pestañas dinamicamente
-        JPanel panelAgregarPestaña = new JPanel();
-        panelAgregarPestaña.setName(SIMBOLO_AGREGAR_PESTANIA);
-        tabbedPane.addTab(SIMBOLO_AGREGAR_PESTANIA, null, panelAgregarPestaña, null);
         //Agrego boton confirmacion
         btnConfirmar = new JButton("Confirmar");
         btnConfirmar.setAction(btnConfirmarFichaClinicaAction);
@@ -204,5 +196,13 @@ public class IngresarFichaClinica extends JPanel {
 
     public void setNuevasMascotas(NuevasMascotas nuevasMascotas) {
         this.nuevasMascotas = nuevasMascotas;
+    }
+
+    public GenericTabbedPane getTabbedPane() {
+        return tabbedPane;
+    }
+
+    public void setTabbedPane(GenericTabbedPane tabbedPane) {
+        this.tabbedPane = tabbedPane;
     }
 }

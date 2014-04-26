@@ -24,6 +24,8 @@ public class BotonAgregarFichaClinicaAction extends AbstractAction {
         JDialog dialog = new GenericDialog(NuevasMascotas.getMainMenu(), true, ingresarFichaClinica, s);
         dialog.setLocationRelativeTo(NuevasMascotas.getMainMenu());
         ingresarFichaClinica.setDialog(dialog);
+        //Seteo Dimensiones minimas al modal y lo muestro.
+        dialog.setMinimumSize(dialog.getSize());
         dialog.setVisible(true);
     }
 

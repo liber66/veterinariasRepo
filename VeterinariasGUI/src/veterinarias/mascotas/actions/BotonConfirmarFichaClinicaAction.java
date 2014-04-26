@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import veterinarias.gui.generics.GenericTabbedPane;
 import veterinarias.mascotas.modals.IngresarFichaClinica;
 
 public class BotonConfirmarFichaClinicaAction extends AbstractAction {
@@ -19,9 +20,9 @@ public class BotonConfirmarFichaClinicaAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        String informacion = ingresarFichaClinica.getTxtInformacion().getText();
+        GenericTabbedPane tabbedPane = ingresarFichaClinica.getTabbedPane();
         //si informacion contiene solo espacios en blanco => pasarlo a null.
-        ingresarFichaClinica.getNuevasMascotas().agregarFichaClinica(informacion);
+        ingresarFichaClinica.getNuevasMascotas().agregarFichasClinicas(tabbedPane);
         //Cierro Dialog
         ingresarFichaClinica.getDialog().dispose();
     }

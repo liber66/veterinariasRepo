@@ -1,8 +1,12 @@
 package veterinarias.socios.jframes;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
@@ -16,12 +20,18 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
 
+import veterinarias.gui.generics.GenericTabbedPane;
 import veterinarias.mascotas.actions.BotonAgregarFichaClinicaAction;
 import veterinarias.mascotas.actions.BotonAgregarMascotaAction;
+import veterinarias.objects.trans.FichaClinicaTrans;
 import veterinarias.pruebas.ImagePanel;
+
+import com.toedter.calendar.JDateChooser;
 
 public class NuevasMascotas extends JFrame {
 
@@ -31,6 +41,7 @@ public class NuevasMascotas extends JFrame {
     private GroupLayout gl_contentPane;
     //Atributos
     private String informacion;
+    private List<FichaClinicaTrans> fichasClinicasTrans;
     private static String AGREGAR_FICHA_CLINICA = "Agregar Ficha Clinica";
     private static String MODIFICAR_FICHA_CLINICA = "Modificar Ficha Clinica";
     //Labels
@@ -383,5 +394,30 @@ public class NuevasMascotas extends JFrame {
             btnAgregarFichaClinica.setText(MODIFICAR_FICHA_CLINICA);
         }
         this.informacion = informacion;
+    }
+
+    public void agregarFichasClinicas(GenericTabbedPane tabbedPane) {
+        fichasClinicasTrans = new ArrayList<FichaClinicaTrans>();
+        for (Component pestania : tabbedPane.getComponents()) {
+            JPanel jpanel = (JPanel) pestania;
+            FichaClinicaTrans fichaClinicaTrans = new FichaClinicaTrans();
+            String informacion = null;
+            for (Component component : jpanel.getComponents()) {
+                if (component instanceof JDateChooser) {
+                    Date fecha = ((JDateChooser) component).getDate();
+                    fichaClinicaTrans.setFecha(fecha);
+                }
+                if (component instanceof JScrollPane) {
+                    JViewport jViewport = ((JScrollPane) component).getViewport();
+                    informacion = ((JTextArea) jViewport.getComponent(0)).getText();
+                    fichaClinicaTrans.setInformacion(informacion);
+                }
+            }
+            //Falta filtrar si la informacion contiene caracteres en blanco, tabs...etc
+            if (informacion != null && !informacion.isEmpty()) {
+                fichasClinicasTrans.add(fichaClinicaTrans);
+            }
+        }
+        System.out.println("asdsadsaadasa");
     }
 }

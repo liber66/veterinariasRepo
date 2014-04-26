@@ -29,7 +29,7 @@ public class ButtonX extends JButton implements MouseListener {
         this.tabbedPane = tabPane;
         this.panelPestania = panelPestania;
         //Seteo atributos del boton x
-        int size = 17;
+        int size = 15;
         setPreferredSize(new Dimension(size, size));
         setToolTipText("Cerrar Pestaña");
         setUI(new BasicButtonUI());
@@ -46,6 +46,11 @@ public class ButtonX extends JButton implements MouseListener {
                 int pos = tabbedPane.indexOfTabComponent(ButtonX.this.panelPestania);
                 if (pos != -1 && tabbedPane.getTabCount() > 2) {
                     tabbedPane.remove(pos);
+                    //Todo lo que viene es asumiendo que existe pestaña '+'(ver despues de diferenciar para que quede generico)
+                    JPanel j = (JPanel) tabbedPane.getComponent(pos + 1);
+                    if ("+".equals(j.getName())) {
+                        tabbedPane.setSelectedIndex(pos - 1);
+                    }
                 }
             }
         });
@@ -60,13 +65,13 @@ public class ButtonX extends JButton implements MouseListener {
         if (getModel().isPressed()) {
             g2.translate(1, 1);
         }
-        g2.setStroke(new BasicStroke(3));
+        g2.setStroke(new BasicStroke(2));
         g2.setColor(Color.BLACK);
         if (getModel().isRollover()) {
             g2.setColor(Color.RED);
         }
-        g2.drawLine(5, 5, 12, 12);
-        g2.drawLine(12, 6, 6, 12);
+        g2.drawLine(5, 4, 12, 11);
+        g2.drawLine(12, 4, 5, 11);
         g2.dispose();
     }
 
