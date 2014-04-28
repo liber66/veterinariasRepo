@@ -14,20 +14,27 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import veterinarias.gui.generics.GenericMaskFormatter;
 import veterinarias.gui.generics.GenericTabbedPane;
 import veterinarias.gui.generics.GenericTablePanel;
 import veterinarias.mascotas.actions.BotonAgregarFichaClinicaAction;
 import veterinarias.mascotas.actions.BotonAgregarMascotaAction;
+import veterinarias.mascotas.actions.BotonEliminarMascotaAction;
+import veterinarias.mascotas.actions.BotonModificarMascotaAction;
 import veterinarias.objects.trans.FichaClinicaTrans;
 import veterinarias.objects.trans.MascotaTrans;
 import veterinarias.pruebas.ImagePanel;
@@ -58,7 +65,7 @@ public class NuevasMascotas extends JFrame {
     //Texts
     private JTextField txtNroSocio;
     private JTextField txtNombreMascota;
-    private JTextField txtFechaNacimiento;
+    private JFormattedTextField txtFechaNacimiento;
     private JTextField txtEspecie;
     private JTextField txtRaza;
     private JTextField txtPeso;
@@ -69,10 +76,15 @@ public class NuevasMascotas extends JFrame {
     //Tabla
     private GenericTablePanel tablaMascotas;
     //Botones
-    private JButton btnAgregarMascota;
     private JButton btnAgregarFichaClinica;
+    private JButton btnAgregarMascota;
+    private JButton btnModificarMascota;
+    private JButton btnEliminarMascota;
+    private JButton btnConfirmar;
     //Acciones
     private BotonAgregarMascotaAction btnAgregarMascotaAction = new BotonAgregarMascotaAction(this);
+    private BotonModificarMascotaAction btnModificarMascotaAction = new BotonModificarMascotaAction(this);
+    private BotonEliminarMascotaAction btnEliminarMascotaAction = new BotonEliminarMascotaAction(this);
     private BotonAgregarFichaClinicaAction btnAgregarFichaClinicaAction = new BotonAgregarFichaClinicaAction(this, AGREGAR_FICHA_CLINICA);
 
     /**
@@ -123,7 +135,7 @@ public class NuevasMascotas extends JFrame {
         txtNroSocio.setFont(new Font("Tahoma", Font.PLAIN, 12));
         txtNombreMascota = new JTextField();
         txtNombreMascota.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        txtFechaNacimiento = new JTextField();
+        txtFechaNacimiento = new JFormattedTextField(GenericMaskFormatter.getDateMask());
         txtFechaNacimiento.setFont(new Font("Tahoma", Font.PLAIN, 12));
         txtEspecie = new JTextField();
         txtEspecie.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -141,16 +153,26 @@ public class NuevasMascotas extends JFrame {
         rdbtmSexoGroup.add(rdbtmSexoHembra);
         //Inicializo tabla de mascotas
         String[] nombresColumnas = { "Nro Socio", "Nombre", "Fecha Nacimiento", "Peso (g)", "Especie", "Raza", "Sexo" };
-        int[] minWidthColumns = { 72, 136, 112, 64, 120, 120, 40 };
+        int[] minWidthColumns = { 72, 136, 112, 64, 104, 120, 40 };
         int[] maxWidthColumns = { 72, -1, 112, 64, -1, -1, 40 };
         tablaMascotas = new GenericTablePanel(nombresColumnas, minWidthColumns, null, maxWidthColumns);
         tablaMascotas.setTitleFont(new Font("Comic Sans MS", Font.BOLD, 12));
         int[] posColumnasCentradas = { 2, 6 };
         tablaMascotas.centrarColumnas(posColumnasCentradas);
         tablaMascotas.visualizar(false);
+        tablaMascotas.getTable().getSelectionModel().addListSelectionListener(new RowListener());
         //Botones
         btnAgregarMascota = new JButton("Agregar Mascota");
         btnAgregarMascota.setAction(btnAgregarMascotaAction);
+        btnModificarMascota = new JButton("Modificar Mascota");
+        btnModificarMascota.setAction(btnModificarMascotaAction);
+        btnModificarMascota.setEnabled(false);
+        btnEliminarMascota = new JButton("Eliminar Mascota");
+        btnEliminarMascota.setAction(btnEliminarMascotaAction);
+        btnEliminarMascota.setEnabled(false);
+        btnConfirmar = new JButton("Confirmar");
+        //btnConfirmar.setAction(btnEliminarMascotaAction);
+        btnConfirmar.setEnabled(false);
         btnAgregarFichaClinica = new JButton(AGREGAR_FICHA_CLINICA);
         btnAgregarFichaClinica.setAction(btnAgregarFichaClinicaAction);
         //Armo Group Layout del contentPane
@@ -196,7 +218,7 @@ public class NuevasMascotas extends JFrame {
         sGroupBusqueda.addGroup(pGroupPrimerasLabels);
         sGroupBusqueda.addContainerGap(20, 50);
         sGroupBusqueda.addGroup(pGroupPrimerosTexts);
-        sGroupBusqueda.addGap(1, 1, 100);
+        sGroupBusqueda.addGap(1, 1, Short.MAX_VALUE);
         sGroupBusqueda.addGroup(pGroupSegundasLabels);
         sGroupBusqueda.addContainerGap(20, 50);
         sGroupBusqueda.addGroup(pGroupSegundosTexts);
@@ -214,12 +236,22 @@ public class NuevasMascotas extends JFrame {
         pGroupTablaMascotas.addComponent(lblMascotasIngresadas);
         pGroupTablaMascotas.addGap(10);
         pGroupTablaMascotas.addComponent(tablaMascotas, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE);
+        //SequentialGroup botonera abajo
+        SequentialGroup sGroupBotones = gl_contentPane.createSequentialGroup();
+        sGroupBotones.addGap(20);
+        sGroupBotones.addComponent(btnAgregarMascota, GroupLayout.DEFAULT_SIZE, 15, 15);
+        sGroupBotones.addGap(20);
+        sGroupBotones.addComponent(btnModificarMascota, GroupLayout.DEFAULT_SIZE, 15, 15);
+        sGroupBotones.addGap(20);
+        sGroupBotones.addComponent(btnEliminarMascota, GroupLayout.DEFAULT_SIZE, 15, 15);
+        sGroupBotones.addGap(150, 150, Short.MAX_VALUE);
+        sGroupBotones.addComponent(btnConfirmar, GroupLayout.DEFAULT_SIZE, 15, 15);
         //Result
         result.addGroup(sGroupBusqueda);
         result.addGap(20);
         result.addGroup(pGroupTablaMascotas);
         result.addGap(5);
-        result.addComponent(btnAgregarMascota, Alignment.CENTER, GroupLayout.DEFAULT_SIZE, 15, 15);
+        result.addGroup(Alignment.CENTER, sGroupBotones);
         return result;
     }
 
@@ -284,12 +316,23 @@ public class NuevasMascotas extends JFrame {
         SequentialGroup sGroupTablaMascotas = gl_contentPane.createSequentialGroup();
         sGroupTablaMascotas.addGroup(pGroupBusqueda);
         sGroupTablaMascotas.addGap(10);
+        //ParallelGroup botonera abajo
+        ParallelGroup pGroupBotones = gl_contentPane.createParallelGroup(Alignment.LEADING);
+        pGroupBotones.addGap(40);
+        pGroupBotones.addComponent(btnAgregarMascota, GroupLayout.DEFAULT_SIZE, 15, 15);
+        pGroupBotones.addGap(10);
+        pGroupBotones.addComponent(btnModificarMascota, GroupLayout.DEFAULT_SIZE, 15, 15);
+        pGroupBotones.addGap(50);
+        pGroupBotones.addComponent(btnEliminarMascota, GroupLayout.DEFAULT_SIZE, 15, 15);
+        pGroupBotones.addGap(50);
+        pGroupBotones.addComponent(btnConfirmar, GroupLayout.DEFAULT_SIZE, 15, 15);
         //sGroupTablaMascotas.addGroup(pGroupInformacion);
         sGroupTablaMascotas.addComponent(lblMascotasIngresadas);
         sGroupTablaMascotas.addGap(10);
         sGroupTablaMascotas.addComponent(tablaMascotas, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE);
         sGroupTablaMascotas.addGap(5);
-        sGroupTablaMascotas.addComponent(btnAgregarMascota, GroupLayout.DEFAULT_SIZE, 15, 15);
+        //sGroupTablaMascotas.addComponent(btnAgregarMascota, GroupLayout.DEFAULT_SIZE, 15, 15);
+        sGroupTablaMascotas.addGroup(pGroupBotones);
         //Result
         result.addGroup(sGroupTablaMascotas);
         return result;
@@ -311,11 +354,11 @@ public class NuevasMascotas extends JFrame {
         this.txtNombreMascota = txtNombreMascota;
     }
 
-    public JTextField getTxtFechaNacimiento() {
+    public JFormattedTextField getTxtFechaNacimiento() {
         return txtFechaNacimiento;
     }
 
-    public void setTxtFechaNacimiento(JTextField txtFechaNacimiento) {
+    public void setTxtFechaNacimiento(JFormattedTextField txtFechaNacimiento) {
         this.txtFechaNacimiento = txtFechaNacimiento;
     }
 
@@ -414,5 +457,34 @@ public class NuevasMascotas extends JFrame {
                 fichasClinicasTrans.add(fichaClinicaTrans);
             }
         }
+    }
+
+    private class RowListener implements ListSelectionListener {
+
+        public void valueChanged(ListSelectionEvent event) {
+            cargarValores(event);
+        }
+    }
+
+    private void cargarValores(ListSelectionEvent evt) {
+        JTable table = tablaMascotas.getTable();
+        int rowPos = table.getSelectedRow();
+        txtNroSocio.setText(table.getValueAt(rowPos, 0).toString());
+        txtNombreMascota.setText(table.getValueAt(rowPos, 1).toString());
+        txtFechaNacimiento.setText(table.getValueAt(rowPos, 2).toString());
+        txtPeso.setText(table.getValueAt(rowPos, 3).toString());
+        txtEspecie.setText(table.getValueAt(rowPos, 4).toString());
+        txtRaza.setText(table.getValueAt(rowPos, 5).toString());
+        if ("M".equals(table.getValueAt(rowPos, 6).toString())) {
+            rdbtmSexoMacho.setSelected(true);
+        } else {
+            rdbtmSexoHembra.setSelected(true);
+        }
+    }
+
+    public void habilitarBotones(boolean enable) {
+        btnModificarMascota.setEnabled(enable);
+        btnEliminarMascota.setEnabled(enable);
+        btnConfirmar.setEnabled(enable);
     }
 }

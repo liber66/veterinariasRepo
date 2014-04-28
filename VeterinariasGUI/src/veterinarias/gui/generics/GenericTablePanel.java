@@ -1,6 +1,7 @@
 package veterinarias.gui.generics;
 
 import java.awt.Font;
+import java.awt.Point;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -8,6 +9,7 @@ import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -21,7 +23,8 @@ public class GenericTablePanel extends JPanel {
     private JTable table;
     private GroupLayout gl_panel;
     //Despues sacar
-    private int totalAnchoPixelesMinimizado = 664;
+    private int totalAnchoPixelesMinimizadoSinScroll = 664;
+    private int totalAnchoPixelesMinimizadoConScroll = 648;
 
     public GenericTablePanel() {
         super();
@@ -53,6 +56,8 @@ public class GenericTablePanel extends JPanel {
         scrollPane.getViewport().setOpaque(false);
         table = new JTable();
         table.getTableHeader().setReorderingAllowed(false);
+        //Para que solo una fila  sea seleccionable
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scrollPane.setViewportView(table);
         //Armo Group Layout de Panel Socios
         gl_panel = new GroupLayout(this);
@@ -115,6 +120,10 @@ public class GenericTablePanel extends JPanel {
         }
     }
 
+    public void selectRow(int rowPosition) {
+        table.setRowSelectionInterval(rowPosition, rowPosition);
+    }
+
     public void visualizar(boolean visualizar) {
         scrollPane.setVisible(visualizar);
     }
@@ -127,5 +136,17 @@ public class GenericTablePanel extends JPanel {
         DefaultTableModel miModelo = (DefaultTableModel) table.getModel();
         miModelo.addRow(row);
         return table.getRowCount() - 1;
+    }
+
+    public int rowAtPoint(Point point) {
+        return table.rowAtPoint(point);
+    }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
     }
 }

@@ -1,13 +1,14 @@
 package veterinarias.objects.trans;
 
-import java.util.Date;
 import java.util.List;
+
+import veterinarias.interfaces.utils.Fecha;
 
 public class MascotaTrans {
 
     private SocioTrans socioTrans;
     private String nombre;
-    private Date fechaNacimiento;
+    private Fecha fechaNacimiento;
     private Long peso;
     private String informacion;
     private String raza;
@@ -33,11 +34,11 @@ public class MascotaTrans {
         this.nombre = nombre;
     }
 
-    public Date getFechaNacimiento() {
+    public Fecha getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(Fecha fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
