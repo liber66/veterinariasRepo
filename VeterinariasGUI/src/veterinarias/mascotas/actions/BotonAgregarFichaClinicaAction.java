@@ -13,6 +13,7 @@ public class BotonAgregarFichaClinicaAction extends AbstractAction {
 
     private static final long serialVersionUID = 1L;
     private NuevasMascotas nuevasMascotas;
+    private IngresarFichaClinica ingresarFichaClinica;
 
     public BotonAgregarFichaClinicaAction(NuevasMascotas nuevasMascotas, String buttonName) {
         putValue(NAME, buttonName);
@@ -31,6 +32,9 @@ public class BotonAgregarFichaClinicaAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        cargarDialogo(new IngresarFichaClinica(nuevasMascotas), "Ingresar Ficha Clinica");
+        if (ingresarFichaClinica == null) {
+            ingresarFichaClinica = new IngresarFichaClinica(nuevasMascotas);
+        }
+        cargarDialogo(ingresarFichaClinica, "Ingresar Ficha Clinica");
     }
 }

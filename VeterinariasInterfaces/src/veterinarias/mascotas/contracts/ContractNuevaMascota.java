@@ -1,8 +1,10 @@
 package veterinarias.mascotas.contracts;
 
 import java.util.Calendar;
+import java.util.List;
 
 import veterinarias.generics.GenericContract;
+import veterinarias.objects.trans.FichaClinicaTrans;
 
 public class ContractNuevaMascota extends GenericContract {
 
@@ -15,6 +17,7 @@ public class ContractNuevaMascota extends GenericContract {
     private String especie;
     private String raza;
     private String sexo;
+    private List<FichaClinicaTrans> fichasClinicasTrans;
 
     public Long getNroSocio() {
         return nroSocio;
@@ -78,5 +81,13 @@ public class ContractNuevaMascota extends GenericContract {
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
+    }
+
+    public List<FichaClinicaTrans> getFichasClinicasTrans() {
+        return fichasClinicasTrans;
+    }
+
+    public void setFichasClinicasTrans(List<FichaClinicaTrans> fichasClinicasTrans) {
+        this.fichasClinicasTrans = fichasClinicasTrans;
     }
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import veterinarias.entities.Mascota;
 import veterinarias.entities.Socio;
 
 public class AccessDataBase {
@@ -112,5 +113,52 @@ public class AccessDataBase {
         ps.executeUpdate();
         ps.close();
         connection.close();
+    }
+
+    public Socio obtSocioPorNumero(Long nroSocio) throws SQLException {
+        Socio socio = null;
+        Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        String sql = "SELECT * FROM socios s WHERE s.nro_socio = ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setLong(1, nroSocio);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            socio = new Socio();
+            socio.setNroSocio(rs.getLong("nro_socio"));
+            socio.setPrimerNombre(rs.getString("primer_nombre"));
+            socio.setSegundoNombre(rs.getString("segundo_nombre"));
+            socio.setPrimerApellido(rs.getString("primer_apellido"));
+            socio.setSegundoApellido(rs.getString("segundo_apellido"));
+            socio.setTelefono(rs.getString("telefono"));
+            socio.setCelular(rs.getString("celular"));
+            socio.setDireccion(rs.getString("direccion"));
+            socio.setCobrador(rs.getString("cobrador"));
+        }
+        //Cierro coneccion
+        ps.close();
+        connection.close();
+        return socio;
+    }
+
+    public Mascota obtenerMascota(Long nroSocio, String nombreMascota, String muerta) throws SQLException {
+        Mascota mascota = null;
+        Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        String sql = "SELECT * FROM mascotas m WHERE m.nro_socio = ? AND m.nombre = ? AND m.muerta = ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setLong(1, nroSocio);
+        ps.setString(2, nombreMascota);
+        ps.setString(3, muerta);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            mascota = new Mascota();
+            mascota.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
+            mascota.setMuerta(rs.getString("muerta"));
+            mascota.setNombre(rs.getString("nombre"));
+            mascota.setPeso(rs.getLong("peso"));
+        }
+        //Cierro coneccion
+        ps.close();
+        connection.close();
+        return mascota;
     }
 }

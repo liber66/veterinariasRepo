@@ -19,16 +19,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
 
 import veterinarias.gui.generics.GenericTabbedPane;
+import veterinarias.gui.generics.GenericTablePanel;
 import veterinarias.mascotas.actions.BotonAgregarFichaClinicaAction;
 import veterinarias.mascotas.actions.BotonAgregarMascotaAction;
 import veterinarias.objects.trans.FichaClinicaTrans;
+import veterinarias.objects.trans.MascotaTrans;
 import veterinarias.pruebas.ImagePanel;
 
 import com.toedter.calendar.JDateChooser;
@@ -41,6 +42,7 @@ public class NuevasMascotas extends JFrame {
     private GroupLayout gl_contentPane;
     //Atributos
     private String informacion;
+    private List<MascotaTrans> mascotasTrans = new ArrayList<MascotaTrans>();
     private List<FichaClinicaTrans> fichasClinicasTrans;
     private static String AGREGAR_FICHA_CLINICA = "Agregar Ficha Clinica";
     private static String MODIFICAR_FICHA_CLINICA = "Modificar Ficha Clinica";
@@ -65,10 +67,7 @@ public class NuevasMascotas extends JFrame {
     private JRadioButton rdbtmSexoMacho;
     private JRadioButton rdbtmSexoHembra;
     //Tabla
-    private JPanel pnlMascotas;
-    private JScrollPane scrPnlMascotas;
-    private JTable tbleMascotas;
-    private GroupLayout gl_pnlMascotas;
+    private GenericTablePanel tablaMascotas;
     //Botones
     private JButton btnAgregarMascota;
     private JButton btnAgregarFichaClinica;
@@ -141,43 +140,24 @@ public class NuevasMascotas extends JFrame {
         rdbtmSexoGroup.add(rdbtmSexoMacho);
         rdbtmSexoGroup.add(rdbtmSexoHembra);
         //Inicializo tabla de mascotas
-        pnlMascotas = new JPanel();
-        pnlMascotas.setBorder(null);
-        pnlMascotas.setOpaque(false);
-        scrPnlMascotas = new JScrollPane();
-        scrPnlMascotas.setBorder(null);
-        scrPnlMascotas.setViewportBorder(null);
-        scrPnlMascotas.setOpaque(false);
-        scrPnlMascotas.getViewport().setOpaque(false);
-        tbleMascotas = new JTable();
-        scrPnlMascotas.setViewportView(tbleMascotas);
+        String[] nombresColumnas = { "Nro Socio", "Nombre", "Fecha Nacimiento", "Peso (g)", "Especie", "Raza", "Sexo" };
+        int[] minWidthColumns = { 72, 136, 112, 64, 120, 120, 40 };
+        int[] maxWidthColumns = { 72, -1, 112, 64, -1, -1, 40 };
+        tablaMascotas = new GenericTablePanel(nombresColumnas, minWidthColumns, null, maxWidthColumns);
+        tablaMascotas.setTitleFont(new Font("Comic Sans MS", Font.BOLD, 12));
+        int[] posColumnasCentradas = { 2, 6 };
+        tablaMascotas.centrarColumnas(posColumnasCentradas);
+        tablaMascotas.visualizar(false);
         //Botones
         btnAgregarMascota = new JButton("Agregar Mascota");
         btnAgregarMascota.setAction(btnAgregarMascotaAction);
         btnAgregarFichaClinica = new JButton(AGREGAR_FICHA_CLINICA);
         btnAgregarFichaClinica.setAction(btnAgregarFichaClinicaAction);
-        //Armo Group Layout de Panel Socios
-        gl_pnlMascotas = new GroupLayout(pnlMascotas);
-        pnlMascotas.setLayout(gl_pnlMascotas);
-        gl_pnlMascotas.setHorizontalGroup(horizontalGroupPnlMascotas());
-        gl_pnlMascotas.setVerticalGroup(verticalGroupPnlMascotas());
         //Armo Group Layout del contentPane
         gl_contentPane = new GroupLayout(contentPane);
         contentPane.setLayout(gl_contentPane);
         gl_contentPane.setHorizontalGroup(horizontalGroupContentPane());
         gl_contentPane.setVerticalGroup(verticalGroupContentPane());
-    }
-
-    private ParallelGroup horizontalGroupPnlMascotas() {
-        ParallelGroup result = gl_pnlMascotas.createParallelGroup(Alignment.LEADING);
-        result.addComponent(scrPnlMascotas, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE);
-        return result;
-    }
-
-    private ParallelGroup verticalGroupPnlMascotas() {
-        ParallelGroup result = gl_pnlMascotas.createParallelGroup(Alignment.TRAILING);
-        result.addComponent(scrPnlMascotas, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE);
-        return result;
     }
 
     private ParallelGroup horizontalGroupContentPane() {
@@ -233,7 +213,7 @@ public class NuevasMascotas extends JFrame {
         ParallelGroup pGroupTablaMascotas = gl_contentPane.createParallelGroup(Alignment.LEADING);
         pGroupTablaMascotas.addComponent(lblMascotasIngresadas);
         pGroupTablaMascotas.addGap(10);
-        pGroupTablaMascotas.addComponent(pnlMascotas, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE);
+        pGroupTablaMascotas.addComponent(tablaMascotas, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE);
         //Result
         result.addGroup(sGroupBusqueda);
         result.addGap(20);
@@ -307,7 +287,7 @@ public class NuevasMascotas extends JFrame {
         //sGroupTablaMascotas.addGroup(pGroupInformacion);
         sGroupTablaMascotas.addComponent(lblMascotasIngresadas);
         sGroupTablaMascotas.addGap(10);
-        sGroupTablaMascotas.addComponent(pnlMascotas, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE);
+        sGroupTablaMascotas.addComponent(tablaMascotas, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE);
         sGroupTablaMascotas.addGap(5);
         sGroupTablaMascotas.addComponent(btnAgregarMascota, GroupLayout.DEFAULT_SIZE, 15, 15);
         //Result
@@ -371,20 +351,36 @@ public class NuevasMascotas extends JFrame {
         this.rdbtmSexoGroup = rdbtmSexoGroup;
     }
 
-    public JScrollPane getScrPnlMascotas() {
-        return scrPnlMascotas;
-    }
-
-    public void setScrPnlMascotas(JScrollPane scrPnlMascotas) {
-        this.scrPnlMascotas = scrPnlMascotas;
-    }
-
     public String getInformacion() {
         return informacion;
     }
 
     public void setInformacion(String informacion) {
         this.informacion = informacion;
+    }
+
+    public List<FichaClinicaTrans> getFichasClinicasTrans() {
+        return fichasClinicasTrans;
+    }
+
+    public void setFichasClinicasTrans(List<FichaClinicaTrans> fichasClinicasTrans) {
+        this.fichasClinicasTrans = fichasClinicasTrans;
+    }
+
+    public GenericTablePanel getTablaMascotas() {
+        return tablaMascotas;
+    }
+
+    public void setTablaMascotas(GenericTablePanel tablaMascotas) {
+        this.tablaMascotas = tablaMascotas;
+    }
+
+    public List<MascotaTrans> getMascotasTrans() {
+        return mascotasTrans;
+    }
+
+    public void setMascotasTrans(List<MascotaTrans> mascotasTrans) {
+        this.mascotasTrans = mascotasTrans;
     }
 
     public void agregarFichaClinica(String informacion) {
@@ -418,6 +414,5 @@ public class NuevasMascotas extends JFrame {
                 fichasClinicasTrans.add(fichaClinicaTrans);
             }
         }
-        System.out.println("asdsadsaadasa");
     }
 }

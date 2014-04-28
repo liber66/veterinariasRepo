@@ -21,6 +21,7 @@ public class SolverNuevaMascota extends GenericSolver {
     private String sexo;
     private static String MUERTA = "N";
 
+    @Override
     public void loadContract(GenericContract genericContract) {
         ContractNuevaMascota contractNuevaMascota = (ContractNuevaMascota) genericContract;
         nroSocio = contractNuevaMascota.getNroSocio();
@@ -33,10 +34,8 @@ public class SolverNuevaMascota extends GenericSolver {
         sexo = contractNuevaMascota.getSexo();
     }
 
-    public void validate() {
-    }
-
-    public void registarObjetosSolver() {
+    @Override
+    public void commitSolver() {
         try {
             AccessDataBase accessDataBase = new AccessDataBase();
             accessDataBase.agregarNuevaMascota(nroSocio, nombreMascota, fechaNacimiento, peso, informacion, especie, raza, sexo, MUERTA);

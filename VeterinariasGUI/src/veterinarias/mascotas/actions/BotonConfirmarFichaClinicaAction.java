@@ -24,6 +24,9 @@ public class BotonConfirmarFichaClinicaAction extends AbstractAction {
         //si informacion contiene solo espacios en blanco => pasarlo a null.
         ingresarFichaClinica.getNuevasMascotas().agregarFichasClinicas(tabbedPane);
         //Cierro Dialog
-        ingresarFichaClinica.getDialog().dispose();
+        //ingresarFichaClinica.getDialog().dispose();
+        //Escondo el dialogo
+        //To do: cuando se confirma el ingreso de una mascota se debe hacer el dispose del dialogo.
+        ingresarFichaClinica.getDialog().setVisible(false);
     }
 }

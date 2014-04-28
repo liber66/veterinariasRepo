@@ -12,7 +12,7 @@ public class Mascota extends GenericEntity {
     private Date fechaNacimiento;
     private Long peso;
     private String informacion;
-    private Character muerta;
+    private String muerta;
     private List<Vacuna> vacunas;
     private List<FichaClinica> fichasClinicas;
 
@@ -56,11 +56,11 @@ public class Mascota extends GenericEntity {
         this.informacion = informacion;
     }
 
-    public Character getMuerta() {
+    public String getMuerta() {
         return muerta;
     }
 
-    public void setMuerta(Character muerta) {
+    public void setMuerta(String muerta) {
         this.muerta = muerta;
     }
 
@@ -70,5 +70,13 @@ public class Mascota extends GenericEntity {
 
     public void setVacunas(List<Vacuna> vacunas) {
         this.vacunas = vacunas;
+    }
+
+    public List<FichaClinica> getFichasClinicas() {
+        return fichasClinicas;
+    }
+
+    public void setFichasClinicas(List<FichaClinica> fichasClinicas) {
+        this.fichasClinicas = fichasClinicas;
     }
 }

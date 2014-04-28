@@ -10,8 +10,12 @@ public class MascotaTrans {
     private Date fechaNacimiento;
     private Long peso;
     private String informacion;
-    private Character muerta;
+    private String raza;
+    private String especie;
+    private String sexo;
+    private String muerta;
     private List<VacunaTrans> vacunasTrans;
+    private List<FichaClinicaTrans> fichasClinicasTrans;
 
     public SocioTrans getSocioTrans() {
         return socioTrans;
@@ -53,12 +57,28 @@ public class MascotaTrans {
         this.informacion = informacion;
     }
 
-    public Character getMuerta() {
+    public String getMuerta() {
         return muerta;
     }
 
-    public void setMuerta(Character muerta) {
+    public void setMuerta(String muerta) {
         this.muerta = muerta;
+    }
+
+    public String getRaza() {
+        return raza;
+    }
+
+    public void setRaza(String raza) {
+        this.raza = raza;
+    }
+
+    public String getEspecie() {
+        return especie;
+    }
+
+    public void setEspecie(String especie) {
+        this.especie = especie;
     }
 
     public List<VacunaTrans> getVacunasTrans() {
@@ -67,5 +87,21 @@ public class MascotaTrans {
 
     public void setVacunasTrans(List<VacunaTrans> vacunasTrans) {
         this.vacunasTrans = vacunasTrans;
+    }
+
+    public List<FichaClinicaTrans> getFichasClinicasTrans() {
+        return fichasClinicasTrans;
+    }
+
+    public void setFichasClinicasTrans(List<FichaClinicaTrans> fichasClinicasTrans) {
+        this.fichasClinicasTrans = fichasClinicasTrans;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
 }
