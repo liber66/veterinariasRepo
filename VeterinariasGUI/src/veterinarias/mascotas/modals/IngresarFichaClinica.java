@@ -1,9 +1,12 @@
 package veterinarias.mascotas.modals;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -21,7 +24,9 @@ import javax.swing.JTextField;
 
 import veterinarias.gui.generics.GenericTabbedPane;
 import veterinarias.mascotas.actions.BotonConfirmarFichaClinicaAction;
+import veterinarias.objects.trans.FichaClinicaTrans;
 import veterinarias.socios.jframes.NuevasMascotas;
+import veterinarias.util.Convertidor;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -69,27 +74,7 @@ public class IngresarFichaClinica extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 String nameComponent = tabbedPane.getSelectedComponent().getName();
                 if (nameComponent != null && nameComponent.equals("+")) {
-                    JPanel panel = new JPanel();
-                    tabbedPane.addClosableTabWithAddTab("New tab", panel);
-                    //Creo componentes nuevos
-                    JLabel lblFecha = new JLabel("Fecha:");
-                    lblFecha.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
-                    JDateChooser dateChooser = new JDateChooser();
-                    dateChooser.setDate(new Date());
-                    ((JTextField) dateChooser.getDateEditor()).setEditable(false);
-                    JTextArea txtInformacion = new JTextArea(10, 50);
-                    txtInformacion.setText(nuevasMascotas.getInformacion());
-                    txtInformacion.setLineWrap(true);
-                    txtInformacion.setWrapStyleWord(true);
-                    txtInformacion.setFont(new Font("Tahoma", Font.PLAIN, 12));
-                    JScrollPane scrPnlInformacion = new JScrollPane();
-                    scrPnlInformacion.setViewportView(txtInformacion);
-                    //Agrego layout
-                    GroupLayout groupLayout = new GroupLayout(panel);
-                    panel.setLayout(groupLayout);
-                    groupLayout.setHorizontalGroup(horizontalGroupPanelInicial(groupLayout, lblFecha, dateChooser, scrPnlInformacion));
-                    groupLayout.setVerticalGroup(verticalGroupPanelInicial(groupLayout, lblFecha, dateChooser, scrPnlInformacion));
-                    tabbedPane.setSelectedComponent(panel);
+                    agregarPestaniaVacia();
                 }
             }
         });
@@ -117,6 +102,33 @@ public class IngresarFichaClinica extends JPanel {
         this.setLayout(gl_contentPane);
         gl_contentPane.setHorizontalGroup(horizontalGroupPanel());
         gl_contentPane.setVerticalGroup(verticalGroupPanel());
+    }
+
+    public void agregarPestaniaVacia() {
+        //String nameComponent = tabbedPane.getSelectedComponent().getName();
+        //if (nameComponent != null && nameComponent.equals("+")) {
+        JPanel panel = new JPanel();
+        tabbedPane.addClosableTabWithAddTab("New tab", panel);
+        //Creo componentes nuevos
+        JLabel lblFecha = new JLabel("Fecha:");
+        lblFecha.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        JDateChooser dateChooser = new JDateChooser();
+        dateChooser.setDate(new Date());
+        ((JTextField) dateChooser.getDateEditor()).setEditable(false);
+        JTextArea txtInformacion = new JTextArea(10, 50);
+        txtInformacion.setText(nuevasMascotas.getInformacion());
+        txtInformacion.setLineWrap(true);
+        txtInformacion.setWrapStyleWord(true);
+        txtInformacion.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        JScrollPane scrPnlInformacion = new JScrollPane();
+        scrPnlInformacion.setViewportView(txtInformacion);
+        //Agrego layout
+        GroupLayout groupLayout = new GroupLayout(panel);
+        panel.setLayout(groupLayout);
+        groupLayout.setHorizontalGroup(horizontalGroupPanelInicial(groupLayout, lblFecha, dateChooser, scrPnlInformacion));
+        groupLayout.setVerticalGroup(verticalGroupPanelInicial(groupLayout, lblFecha, dateChooser, scrPnlInformacion));
+        tabbedPane.setSelectedComponent(panel);
+        // }
     }
 
     private Group horizontalGroupPanelInicial(GroupLayout groupLayout, JLabel lblFecha, JDateChooser dateChooser, JScrollPane scrPnlInformacion) {
@@ -204,5 +216,90 @@ public class IngresarFichaClinica extends JPanel {
 
     public void setTabbedPane(GenericTabbedPane tabbedPane) {
         this.tabbedPane = tabbedPane;
+    }
+
+    public JDateChooser getDateChooser() {
+        return dateChooser;
+    }
+
+    public void setDateChooser(JDateChooser dateChooser) {
+        this.dateChooser = dateChooser;
+    }
+
+    public List<FichaClinicaTrans> getFichasClinicasTrans() {
+        List<FichaClinicaTrans> listFichaClinicaTrans = new ArrayList<FichaClinicaTrans>();
+        Convertidor convertidor = new Convertidor();
+        Component[] listComponents = tabbedPane.getComponents();
+        if (listComponents != null) {
+            for (Component pestania : listComponents) {
+                FichaClinicaTrans fichaClinicaTrans = new FichaClinicaTrans();
+                JPanel panel = (JPanel) pestania;
+                Component[] tabComponents = panel.getComponents();
+                for (Component component : tabComponents) {
+                    if (component instanceof JDateChooser) {
+                        JDateChooser jDateChooser = (JDateChooser) component;
+                        fichaClinicaTrans.setFecha(convertidor.convertDateToFecha(jDateChooser.getDate()));
+                    }
+                    if (component instanceof JScrollPane) {
+                        JScrollPane jScrollPane = (JScrollPane) component;
+                        JTextArea txtInformacion = (JTextArea) jScrollPane.getViewport().getView();
+                        fichaClinicaTrans.setInformacion(txtInformacion.getText());
+                    }
+                }
+                if (!fichaClinicaTrans.isEmpty()) {
+                    listFichaClinicaTrans.add(fichaClinicaTrans);
+                }
+            }
+        }
+        return listFichaClinicaTrans;
+    }
+
+    private void addFichaClinicaTransEnPestania(JPanel pestania, FichaClinicaTrans fichaClinicaTrans) {
+        if (pestania != null && fichaClinicaTrans != null) {
+            Component[] tabComponents = pestania.getComponents();
+            Convertidor convertidor = new Convertidor();
+            for (Component component : tabComponents) {
+                if (component instanceof JDateChooser) {
+                    JDateChooser jDateChooser = (JDateChooser) component;
+                    jDateChooser.setDate(convertidor.convertFechaToDate(fichaClinicaTrans.getFecha()));
+                }
+                if (component instanceof JScrollPane) {
+                    JScrollPane jScrollPane = (JScrollPane) component;
+                    JTextArea txtInformacion = (JTextArea) jScrollPane.getViewport().getView();
+                    txtInformacion.setText(fichaClinicaTrans.getInformacion());
+                }
+            }
+        }
+    }
+
+    private Object[] obtSiguientePestania(Component[] listComponents, Integer posActual) {
+        Object[] result = new Object[2];
+        JPanel pestaniaSiguiente = null;
+        if (posActual < listComponents.length) {
+            for (int i = posActual; i < listComponents.length; i++) {
+                if (((JPanel) listComponents[i]).getComponent(0) instanceof JLabel) {
+                    pestaniaSiguiente = (JPanel) listComponents[i];
+                    result[0] = pestaniaSiguiente;
+                    result[1] = i + 1;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    public void agregarFichaClinica(List<FichaClinicaTrans> fichasClinicasTrans) {
+        if (fichasClinicasTrans != null && !fichasClinicasTrans.isEmpty()) {
+            Integer posActual = 0;
+            for (int i = 0; i < fichasClinicasTrans.size(); i++) {
+                FichaClinicaTrans fichaClinicaTrans = fichasClinicasTrans.get(i);
+                Object[] pestania = obtSiguientePestania(tabbedPane.getComponents(), posActual);
+                posActual = (Integer) pestania[1];
+                addFichaClinicaTransEnPestania((JPanel) pestania[0], fichaClinicaTrans);
+                if (i < fichasClinicasTrans.size() - 1) {
+                    this.agregarPestaniaVacia();
+                }
+            }
+        }
     }
 }

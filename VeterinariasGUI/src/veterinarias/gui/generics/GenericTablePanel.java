@@ -124,6 +124,10 @@ public class GenericTablePanel extends JPanel {
         table.setRowSelectionInterval(rowPosition, rowPosition);
     }
 
+    public int getSelectedRow() {
+        return table.getSelectedRow();
+    }
+
     public void visualizar(boolean visualizar) {
         scrollPane.setVisible(visualizar);
     }
@@ -148,5 +152,41 @@ public class GenericTablePanel extends JPanel {
 
     public void setTable(JTable table) {
         this.table = table;
+    }
+
+    public void removeRow(int rowPosition) {
+        DefaultTableModel miModelo = (DefaultTableModel) table.getModel();
+        miModelo.removeRow(rowPosition);
+    }
+
+    public boolean isEmpty() {
+        return table.getRowCount() == 0;
+    }
+
+    public void changeRow(Object[] row, int rowPos) {
+        int columnCount = table.getColumnCount();
+        for (int j = 0; j < columnCount; j++) {
+            table.setValueAt(row[j], rowPos, j);
+        }
+    }
+
+    public void clearSelection() {
+        table.clearSelection();
+    }
+
+    public Object[][] getRows() {
+        Object[][] filas = null;
+        DefaultTableModel miModelo = (DefaultTableModel) table.getModel();
+        int cantColumnas = miModelo.getColumnCount();
+        int cantFilas = miModelo.getRowCount();
+        if (cantFilas > 0) {
+            filas = new Object[cantFilas][cantColumnas];
+            for (int i = 0; i < cantFilas; i++) {
+                for (int j = 0; j < cantColumnas; j++) {
+                    filas[i][j] = miModelo.getValueAt(i, j);
+                }
+            }
+        }
+        return filas;
     }
 }

@@ -20,8 +20,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import veterinarias.principal.actions.NuevasMascotasAction;
 import veterinarias.pruebas.ImagePanel;
+import veterinarias.socios.actions.AgregarMascotasAlSocioAction;
 import veterinarias.socios.actions.BotonAgregarSocioAction;
 
 public class NuevoSocio extends JFrame {
@@ -60,7 +60,7 @@ public class NuevoSocio extends JFrame {
     private GroupLayout gl_pnlSocios;
     //Acciones
     private final Action btnAgregarSocioAction = new BotonAgregarSocioAction(this);
-    private final Action btnAgregarMascotasAction = new NuevasMascotasAction();
+    private final Action btnAgregarMascotasAction = new AgregarMascotasAlSocioAction(this);
 
     /**
      * Create the frame.

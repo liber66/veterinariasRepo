@@ -12,17 +12,27 @@ import java.util.List;
 
 import veterinarias.entities.Mascota;
 import veterinarias.entities.Socio;
+import veterinarias.objects.trans.FichaClinicaTrans;
+import veterinarias.objects.trans.MascotaTrans;
 
 public class AccessDataBase {
 
     private static String DB_URL = "jdbc:postgresql://127.0.0.1:5432";
     private static String DB_USER = "postgres";
     private static String DB_PASS = "admin";
+    private Connection connection;
+
+    private Connection getConnection() throws SQLException {
+        if (connection == null) {
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        }
+        return connection;
+    }
 
     public List<Socio> obtSociosPorNombre(Long nroSocio, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido,
             String direccion, String telefono, String celular, String cobrador) throws SQLException {
         List<Socio> listaSocios = new ArrayList<Socio>();
-        Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        Connection connection = this.getConnection();
         String sql = "SELECT * FROM socios s WHERE";
         if (nroSocio != null) {
             sql += " s.nro_socio = " + nroSocio + " AND";
@@ -75,7 +85,7 @@ public class AccessDataBase {
 
     public void agregarNuevoSocio(Long nroSocio, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion,
             String telefono, String celular, String cobrador) throws SQLException {
-        Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        Connection connection = this.getConnection();
         String sql = "INSERT INTO socios (nro_socio, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, telefono, celular, direccion, cobrador) "
                 + "VALUES (?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = connection.prepareStatement(sql);
@@ -93,9 +103,50 @@ public class AccessDataBase {
         connection.close();
     }
 
+    public void insertarNuevasMascotas(List<MascotaTrans> listMascotaTrans) throws SQLException {
+        Connection connection = this.getConnection();
+        connection.setAutoCommit(false);
+        Convertidor convertidor = new Convertidor();
+        if (listMascotaTrans != null && !listMascotaTrans.isEmpty()) {
+            for (MascotaTrans mascotaTrans : listMascotaTrans) {
+                String sqlMascotas = "INSERT INTO mascotas(nro_socio, nombre, fecha_nacimiento, peso, especie, raza, sexo, muerta)"
+                        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement ps = connection.prepareStatement(sqlMascotas);
+                ps.setLong(1, mascotaTrans.getSocioTrans().getNroSocio());
+                ps.setString(2, mascotaTrans.getNombre());
+                Date sqlDateFechaNac = convertidor.convertCalendarToSQLDate(mascotaTrans.getFechaNacimiento());
+                ps.setDate(3, sqlDateFechaNac);
+                ps.setLong(4, mascotaTrans.getPeso());
+                ps.setString(5, mascotaTrans.getEspecie());
+                ps.setString(6, mascotaTrans.getRaza());
+                ps.setString(7, mascotaTrans.getSexo());
+                ps.setString(8, mascotaTrans.getMuerta());
+                ps.executeUpdate();
+                ps.close();
+                List<FichaClinicaTrans> listFichaClinicaTrans = mascotaTrans.getFichasClinicasTrans();
+                if (listFichaClinicaTrans != null) {
+                    for (FichaClinicaTrans fichaClinicaTrans : listFichaClinicaTrans) {
+                        String sqlFichasClinicas = "INSERT INTO fichas_clinicas(nro_socio, nombre, muerta, fecha, informacion)" + " VALUES (?, ?, ?, ?, ?)";
+                        ps = connection.prepareStatement(sqlFichasClinicas);
+                        ps.setLong(1, mascotaTrans.getSocioTrans().getNroSocio());
+                        ps.setString(2, mascotaTrans.getNombre());
+                        ps.setString(3, mascotaTrans.getMuerta());
+                        Date sqlDateFecha = convertidor.convertCalendarToSQLDate(fichaClinicaTrans.getFecha());
+                        ps.setDate(4, sqlDateFecha);
+                        ps.setString(5, fichaClinicaTrans.getInformacion());
+                        ps.executeUpdate();
+                        ps.close();
+                    }
+                }
+            }
+            connection.commit();
+        }
+        connection.close();
+    }
+
     public void agregarNuevaMascota(Long nroSocio, String nombreMascota, Calendar fechaNacimiento, Long peso, String informacion, String especie, String raza,
             String sexo, String muerta) throws SQLException {
-        Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        Connection connection = this.getConnection();
         Convertidor convertidor = new Convertidor();
         String sql = "INSERT INTO mascotas(nro_socio, nombre, fecha_nacimiento, peso, informacion, especie, raza, sexo, muerta)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -117,7 +168,7 @@ public class AccessDataBase {
 
     public Socio obtSocioPorNumero(Long nroSocio) throws SQLException {
         Socio socio = null;
-        Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        Connection connection = this.getConnection();
         String sql = "SELECT * FROM socios s WHERE s.nro_socio = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setLong(1, nroSocio);
@@ -142,7 +193,7 @@ public class AccessDataBase {
 
     public Mascota obtenerMascota(Long nroSocio, String nombreMascota, String muerta) throws SQLException {
         Mascota mascota = null;
-        Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+        Connection connection = this.getConnection();
         String sql = "SELECT * FROM mascotas m WHERE m.nro_socio = ? AND m.nombre = ? AND m.muerta = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setLong(1, nroSocio);

@@ -1,11 +1,15 @@
 package veterinarias.consultas.jpanels;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -40,6 +44,7 @@ public class VerSocios extends javax.swing.JPanel {
     private JTextField txtCelular;
     private JLabel lblCelular;
     private JComboBox<String> cmbCobrador;
+    private JCheckBox chckbxNewCheckBox;
 
     /** Creates new form VerSociosPorNombre */
     public VerSocios() {
@@ -162,6 +167,7 @@ public class VerSocios extends javax.swing.JPanel {
         txtPrimerApellido = new JTextField();
         txtPrimerApellido.setFont(new Font("Tahoma", Font.PLAIN, 12));
         txtPrimerNombre = new JTextField();
+        txtPrimerNombre.setBackground(Color.LIGHT_GRAY);
         txtPrimerNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
         txtSegundoNombre = new JTextField();
         txtSegundoNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -189,6 +195,12 @@ public class VerSocios extends javax.swing.JPanel {
         cmbCobrador.setModel(new DefaultComboBoxModel<String>(new String[] { "", "Si", "No" }));
         JLabel lblCobrador = new JLabel("Cobrador:");
         lblCobrador.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        chckbxNewCheckBox = new JCheckBox("New check box");
+        chckbxNewCheckBox.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent arg0) {
+            }
+        });
         //jScrollPane1.setViewportView(jTable1);
         javax.swing.GroupLayout gl_panelBusqueda = new javax.swing.GroupLayout(panelBusqueda);
         gl_panelBusqueda
@@ -201,7 +213,12 @@ public class VerSocios extends javax.swing.JPanel {
                                         .addGroup(
                                                 gl_panelBusqueda
                                                         .createParallelGroup(Alignment.LEADING)
-                                                        .addComponent(panel, GroupLayout.DEFAULT_SIZE, 1007, Short.MAX_VALUE)
+                                                        .addGroup(
+                                                                gl_panelBusqueda
+                                                                        .createSequentialGroup()
+                                                                        .addComponent(chckbxNewCheckBox, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+                                                                                Short.MAX_VALUE).addPreferredGap(ComponentPlacement.RELATED)
+                                                                        .addComponent(panel, GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE))
                                                         .addGroup(
                                                                 gl_panelBusqueda
                                                                         .createSequentialGroup()
@@ -274,8 +291,7 @@ public class VerSocios extends javax.swing.JPanel {
                                                                                                         .addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE,
                                                                                                                 89, GroupLayout.PREFERRED_SIZE))
                                                                                         .addComponent(txtCelular, GroupLayout.PREFERRED_SIZE, 236,
-                                                                                                GroupLayout.PREFERRED_SIZE))
-                                                                        .addPreferredGap(ComponentPlacement.RELATED, 125, Short.MAX_VALUE))).addContainerGap()));
+                                                                                                GroupLayout.PREFERRED_SIZE)))).addContainerGap()));
         gl_panelBusqueda.setVerticalGroup(gl_panelBusqueda.createParallelGroup(Alignment.LEADING).addGroup(
                 gl_panelBusqueda
                         .createSequentialGroup()
@@ -310,7 +326,16 @@ public class VerSocios extends javax.swing.JPanel {
                                 gl_panelBusqueda.createParallelGroup(Alignment.BASELINE).addComponent(btnBuscar)
                                         .addComponent(lblCobrador, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(cmbCobrador, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addGap(18).addComponent(panel, GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE).addContainerGap()));
+                        .addGroup(
+                                gl_panelBusqueda
+                                        .createParallelGroup(Alignment.LEADING)
+                                        .addGroup(
+                                                gl_panelBusqueda.createSequentialGroup().addGap(18)
+                                                        .addComponent(panel, GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE))
+                                        .addGroup(
+                                                gl_panelBusqueda.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
+                                                        .addComponent(chckbxNewCheckBox, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addGap(361))).addContainerGap()));
         scrollPane = new JScrollPane();
         scrollPane.setBorder(null);
         scrollPane.setViewportBorder(null);

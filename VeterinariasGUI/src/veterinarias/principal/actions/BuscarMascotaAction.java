@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import veterinarias.consultas.jpanels.VerMascotas;
+import veterinarias.mascotas.jframes.BuscarMascota;
 
 public class BuscarMascotaAction extends AbstractAction {
 
@@ -17,7 +17,7 @@ public class BuscarMascotaAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        VerMascotas verMascotas = new VerMascotas();
-        verMascotas.setVisible(true);
+        BuscarMascota buscarMascota = new BuscarMascota();
+        buscarMascota.setVisible(true);
     }
 }

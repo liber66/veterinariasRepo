@@ -1,19 +1,21 @@
 package veterinarias.mascotas.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
+import javax.swing.WindowConstants;
 
 import veterinarias.gui.generics.GenericDialog;
 import veterinarias.mascotas.modals.IngresarFichaClinica;
+import veterinarias.objects.trans.FichaClinicaTrans;
 import veterinarias.socios.jframes.NuevasMascotas;
 
 public class BotonAgregarFichaClinicaAction extends AbstractAction {
 
     private static final long serialVersionUID = 1L;
     private NuevasMascotas nuevasMascotas;
-    private IngresarFichaClinica ingresarFichaClinica;
 
     public BotonAgregarFichaClinicaAction(NuevasMascotas nuevasMascotas, String buttonName) {
         putValue(NAME, buttonName);
@@ -22,9 +24,10 @@ public class BotonAgregarFichaClinicaAction extends AbstractAction {
     }
 
     private void cargarDialogo(IngresarFichaClinica ingresarFichaClinica, String s) {
-        JDialog dialog = new GenericDialog(NuevasMascotas.getMainMenu(), true, ingresarFichaClinica, s);
-        dialog.setLocationRelativeTo(NuevasMascotas.getMainMenu());
+        JDialog dialog = new GenericDialog(nuevasMascotas, true, ingresarFichaClinica, s);
+        dialog.setLocationRelativeTo(nuevasMascotas);
         ingresarFichaClinica.setDialog(dialog);
+        dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         //Seteo Dimensiones minimas al modal y lo muestro.
         dialog.setMinimumSize(dialog.getSize());
         dialog.setVisible(true);
@@ -32,9 +35,11 @@ public class BotonAgregarFichaClinicaAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        if (ingresarFichaClinica == null) {
-            ingresarFichaClinica = new IngresarFichaClinica(nuevasMascotas);
+        IngresarFichaClinica ingresarFichaClinica = new IngresarFichaClinica(nuevasMascotas);
+        List<FichaClinicaTrans> fichasClinicasTrans = nuevasMascotas.getFichasClinicasTrans();
+        if (fichasClinicasTrans != null) {
+            ingresarFichaClinica.agregarFichaClinica(fichasClinicasTrans);
         }
-        cargarDialogo(ingresarFichaClinica, "Ingresar Ficha Clinica");
+        cargarDialogo(ingresarFichaClinica, "Agregar Vacunas");
     }
 }

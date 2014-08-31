@@ -57,4 +57,16 @@ public class GenericTabbedPane extends JTabbedPane {
         super.addTab(SIMBOLO_AGREGAR_PESTANIA, panelAgregarPestaña);
         additionTab = getComponent(getTabCount());
     }
+    /* public List<Component> getTabs() {
+         List<Component> listComponents = null;
+         int cantidadTabs = super.getTabCount();
+         if (cantidadTabs > 0) {
+             listComponents = new ArrayList<Component>();
+             for (int i = 0; i < cantidadTabs; i++) {
+                 Component component = super.getTabComponentAt(i);
+                 listComponents.add(component);
+             }
+         }
+         return listComponents;
+     }*/
 }

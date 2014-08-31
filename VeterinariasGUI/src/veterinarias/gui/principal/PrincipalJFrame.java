@@ -17,11 +17,12 @@ import veterinarias.principal.actions.BuscarMascotaAction;
 import veterinarias.principal.actions.BuscarSocioAction;
 import veterinarias.principal.actions.NuevasMascotasAction;
 import veterinarias.principal.actions.NuevoSocioAction;
+import veterinarias.pruebas.ImagePanel;
 
 public class PrincipalJFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
+    private ImagePanel contentPane;
     //private final Action buscarSocioPorNombreAction = ;
     public static PrincipalJFrame mainMenu = null;
 
@@ -91,7 +92,7 @@ public class PrincipalJFrame extends JFrame {
         JMenuItem mntmBuscarMascotas = new JMenuItem("Buscar Mascotas");
         mntmBuscarMascotas.setAction(new BuscarMascotaAction());
         mnMascotas.add(mntmBuscarMascotas);
-        contentPane = new JPanel();
+        contentPane = new ImagePanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);

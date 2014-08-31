@@ -1,11 +1,11 @@
 package veterinarias.objects.trans;
 
-import java.util.Date;
+import veterinarias.interfaces.utils.Fecha;
 
 public class FichaClinicaTrans {
 
     private MascotaTrans mascota;
-    private Date fecha;
+    private Fecha fecha;
     private String informacion;
 
     public MascotaTrans getMascota() {
@@ -16,11 +16,11 @@ public class FichaClinicaTrans {
         this.mascota = mascota;
     }
 
-    public Date getFecha() {
+    public Fecha getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(Fecha fecha) {
         this.fecha = fecha;
     }
 
@@ -30,5 +30,9 @@ public class FichaClinicaTrans {
 
     public void setInformacion(String informacion) {
         this.informacion = informacion;
+    }
+
+    public boolean isEmpty() {
+        return informacion == null || informacion.isEmpty();
     }
 }

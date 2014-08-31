@@ -1,11 +1,17 @@
 package veterinarias.util;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import veterinarias.entities.FichaClinica;
+import veterinarias.entities.Mascota;
 import veterinarias.entities.Socio;
+import veterinarias.interfaces.utils.Calendario;
+import veterinarias.interfaces.utils.Fecha;
+import veterinarias.objects.trans.FichaClinicaTrans;
+import veterinarias.objects.trans.MascotaTrans;
 import veterinarias.objects.trans.SocioTrans;
 
 public class Convertidor {
@@ -41,11 +47,98 @@ public class Convertidor {
         return socioTrans;
     }
 
-    public Date convertCalendarToSQLDate(Calendar calendar) {
-        Date date = null;
+    public List<FichaClinica> convertListFichaClinicaTransToListFichaClinica(List<FichaClinicaTrans> listFichaClinicaTrans) {
+        List<FichaClinica> listFichaClinica = null;
+        if (listFichaClinicaTrans != null) {
+            listFichaClinica = new ArrayList<FichaClinica>();
+            for (FichaClinicaTrans fichaClinicaTrans : listFichaClinicaTrans) {
+                FichaClinica fichaClinica = this.convertFichaClinicaTransToFichaClinica(fichaClinicaTrans);
+                listFichaClinica.add(fichaClinica);
+            }
+        }
+        return listFichaClinica;
+    }
+
+    public FichaClinica convertFichaClinicaTransToFichaClinica(FichaClinicaTrans fichaClinicaTrans) {
+        FichaClinica fichaClinica = null;
+        if (fichaClinicaTrans != null) {
+            fichaClinica = new FichaClinica();
+            fichaClinica.setFecha(fichaClinicaTrans.getFecha().getTime());
+            fichaClinica.setInformacion(fichaClinicaTrans.getInformacion());
+        }
+        return fichaClinica;
+    }
+
+    private Mascota obtenerMascotaFromMascotaTrans(MascotaTrans mascotaTrans) {
+        Mascota mascota = null;
+        if (mascotaTrans != null) {
+            mascota = new Mascota();
+            Date fechaNacimiento = this.convertCalendarToSQLDate(mascotaTrans.getFechaNacimiento());
+            mascota.setFechaNacimiento(fechaNacimiento);
+            mascota.setInformacion(mascotaTrans.getInformacion());
+            mascota.setMuerta(mascotaTrans.getMuerta());
+            mascota.setNombre(mascotaTrans.getNombre());
+            mascota.setPeso(mascotaTrans.getPeso());
+        }
+        return mascota;
+    }
+
+    private Socio obtenerSocioFromSocioTrans(SocioTrans socioTrans) {
+        Socio socio = null;
+        if (socioTrans != null) {
+            socio = new Socio();
+            socio.setCelular(socioTrans.getCelular());
+            socio.setCobrador(socioTrans.getCobrador());
+            socio.setDireccion(socioTrans.getDireccion());
+            socio.setNroSocio(socioTrans.getNroSocio());
+            socio.setPrimerApellido(socioTrans.getPrimerApellido());
+            socio.setPrimerNombre(socioTrans.getPrimerNombre());
+            socio.setSegundoApellido(socioTrans.getSegundoApellido());
+            socio.setSegundoNombre(socioTrans.getSegundoNombre());
+            socio.setTelefono(socioTrans.getTelefono());
+        }
+        return socio;
+    }
+
+    public java.sql.Date convertCalendarToSQLDate(Calendar calendar) {
+        java.sql.Date date = null;
         if (calendar != null) {
-            date = new Date(calendar.getTimeInMillis());
+            date = new java.sql.Date(calendar.getTimeInMillis());
         }
         return date;
+    }
+
+    //PRE: el formato de la fecha debe ser DD/MM/AAAA.
+    public Fecha convertStringToFecha(String fecha) {
+        Fecha fechaResult = null;
+        if (fecha != null && !fecha.isEmpty()) {
+            fechaResult = new Fecha(fecha, Calendario.DMA);
+        }
+        return fechaResult;
+    }
+
+    //POST: Devuelve la fecha con el formato DD/MM/AAAA.
+    public String convertFechaToString(Fecha fecha) {
+        String fechaResult = null;
+        if (fecha != null) {
+            fechaResult = fecha.toString(Calendario.DMA);
+        }
+        return fechaResult;
+    }
+
+    public Date convertFechaToDate(Fecha fecha) {
+        Date date = null;
+        if (fecha != null) {
+            date = fecha.getTime();
+        }
+        return date;
+    }
+
+    public Fecha convertDateToFecha(Date date) {
+        Fecha fecha = null;
+        if (date != null) {
+            fecha = new Fecha(date);
+        }
+        return fecha;
     }
 }

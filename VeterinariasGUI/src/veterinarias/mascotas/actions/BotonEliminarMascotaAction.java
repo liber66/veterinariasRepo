@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import veterinarias.gui.generics.GenericTablePanel;
 import veterinarias.socios.jframes.NuevasMascotas;
 
 public class BotonEliminarMascotaAction extends AbstractAction {
@@ -19,5 +20,20 @@ public class BotonEliminarMascotaAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
+        nuevasMascotas.setEstoyEliminando(true);
+        GenericTablePanel tablaMascotas = nuevasMascotas.getTablaMascotas();
+        int rowPosition = tablaMascotas.getSelectedRow();
+        //Elimino la ficha clinica del historial y reordeno la tabla
+        nuevasMascotas.eiminarFichaClinica(rowPosition);
+        tablaMascotas.removeRow(rowPosition);
+        nuevasMascotas.limpiarCampos();
+        nuevasMascotas.habilitarBotones(false);
+        nuevasMascotas.habilitarBotonAgregar(true);
+        if (tablaMascotas.isEmpty()) {
+            nuevasMascotas.habilitarBotonConfirmar(false);
+            tablaMascotas.visualizar(false);
+            nuevasMascotas.getLblMascotasIngresadas().setVisible(false);
+        }
+        nuevasMascotas.setEstoyEliminando(false);
     }
 }

@@ -1,11 +1,9 @@
 package veterinarias.socios.jframes;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
@@ -17,29 +15,26 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import veterinarias.gui.generics.GenericMaskFormatter;
-import veterinarias.gui.generics.GenericTabbedPane;
 import veterinarias.gui.generics.GenericTablePanel;
 import veterinarias.mascotas.actions.BotonAgregarFichaClinicaAction;
 import veterinarias.mascotas.actions.BotonAgregarMascotaAction;
+import veterinarias.mascotas.actions.BotonAgregarVacunasAction;
+import veterinarias.mascotas.actions.BotonCofirmarMascotasAction;
 import veterinarias.mascotas.actions.BotonEliminarMascotaAction;
+import veterinarias.mascotas.actions.BotonLimpiarAction;
 import veterinarias.mascotas.actions.BotonModificarMascotaAction;
+import veterinarias.mascotas.modals.IngresarFichaClinica;
 import veterinarias.objects.trans.FichaClinicaTrans;
-import veterinarias.objects.trans.MascotaTrans;
+import veterinarias.objects.trans.VacunaTrans;
 import veterinarias.pruebas.ImagePanel;
-
-import com.toedter.calendar.JDateChooser;
 
 public class NuevasMascotas extends JFrame {
 
@@ -48,57 +43,72 @@ public class NuevasMascotas extends JFrame {
     private ImagePanel contentPane;
     private GroupLayout gl_contentPane;
     //Atributos
-    private String informacion;
-    private List<MascotaTrans> mascotasTrans = new ArrayList<MascotaTrans>();
+    protected IngresarFichaClinica ingresarFichaClinica;
+    //private AgregarVacunas agregarVacunas;
+    private List<VacunaTrans> vacunasTrans;
     private List<FichaClinicaTrans> fichasClinicasTrans;
+    //Lista que contiene las fichas clinicas de las mascotas ingresadas, donde el indice en la lista se corresponde
+    //con el indice en la tabla de la mascota a la cual pertenecen
+    private List<IngresarFichaClinica> fichasClinicasIngresadas = new ArrayList<IngresarFichaClinica>();
+    private String informacion;
     private static String AGREGAR_FICHA_CLINICA = "Agregar Ficha Clinica";
     private static String MODIFICAR_FICHA_CLINICA = "Modificar Ficha Clinica";
+    private static String AGREGAR_VACUNAS = "Agregar Vacunas";
+    private boolean estoyAgregando;
+    private boolean estoyModificando;
+    private boolean estoyEliminando;
     //Labels
-    private JLabel lblNroSocio;
-    private JLabel lblNombreMascota;
-    private JLabel lblFechaNacimiento;
-    private JLabel lblPeso;
-    private JLabel lblEspecie;
-    private JLabel lblRaza;
-    private JLabel lblSexo;
-    private JLabel lblMascotasIngresadas;
+    protected JLabel lblNroSocio;
+    protected JLabel lblNombreMascota;
+    protected JLabel lblFechaNacimiento;
+    protected JLabel lblPeso;
+    protected JLabel lblEspecie;
+    protected JLabel lblRaza;
+    protected JLabel lblSexo;
+    protected JLabel lblMascotasIngresadas;
     //Texts
-    private JTextField txtNroSocio;
-    private JTextField txtNombreMascota;
-    private JFormattedTextField txtFechaNacimiento;
-    private JTextField txtEspecie;
-    private JTextField txtRaza;
-    private JTextField txtPeso;
+    protected JTextField txtNroSocio;
+    protected JTextField txtNombreMascota;
+    protected JFormattedTextField txtFechaNacimiento;
+    protected JTextField txtEspecie;
+    protected JTextField txtRaza;
+    protected JTextField txtPeso;
     //Radio Buttoms
-    private ButtonGroup rdbtmSexoGroup;
-    private JRadioButton rdbtmSexoMacho;
-    private JRadioButton rdbtmSexoHembra;
+    protected ButtonGroup rdbtmSexoGroup;
+    protected JRadioButton rdbtmSexoMacho;
+    protected JRadioButton rdbtmSexoHembra;
     //Tabla
     private GenericTablePanel tablaMascotas;
     //Botones
     private JButton btnAgregarFichaClinica;
+    private JButton btnLimpiar;
     private JButton btnAgregarMascota;
     private JButton btnModificarMascota;
     private JButton btnEliminarMascota;
-    private JButton btnConfirmar;
+    protected JButton btnConfirmar;
+    protected JButton btnAgregarVacunas;
     //Acciones
     private BotonAgregarMascotaAction btnAgregarMascotaAction = new BotonAgregarMascotaAction(this);
     private BotonModificarMascotaAction btnModificarMascotaAction = new BotonModificarMascotaAction(this);
     private BotonEliminarMascotaAction btnEliminarMascotaAction = new BotonEliminarMascotaAction(this);
+    protected BotonCofirmarMascotasAction btnCofirmarMascotasAction = new BotonCofirmarMascotasAction(this);
     private BotonAgregarFichaClinicaAction btnAgregarFichaClinicaAction = new BotonAgregarFichaClinicaAction(this, AGREGAR_FICHA_CLINICA);
+    private BotonLimpiarAction btnLimpiarAction = new BotonLimpiarAction(this);
+    private BotonAgregarVacunasAction btnAgregarVacunasAction = new BotonAgregarVacunasAction(this);
 
     /**
      * Create the frame.
      */
     public NuevasMascotas() {
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         int ancho = d.width * 2 / 3;
         int alto = d.height * 2 / 3;
         setSize(ancho, alto);
         setLocation(d.width / 2 - ancho / 2, d.height / 2 - alto / 2);
         setMinimumSize(new Dimension(ancho, alto));
         this.initComponents();
-        contentPane.setImagen("perro.jpg");
+        contentPane.setImagen("mascotas4.jpg");
         contentPane.setVisible(true);
     }
 
@@ -113,6 +123,10 @@ public class NuevasMascotas extends JFrame {
         contentPane = new ImagePanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
+        //Inicializo atributos
+        estoyAgregando = false;
+        estoyModificando = false;
+        estoyEliminando = false;
         //Inicializo Labels
         lblNroSocio = new JLabel("Nro Socio:");
         lblNroSocio.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
@@ -128,8 +142,9 @@ public class NuevasMascotas extends JFrame {
         lblPeso.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
         lblSexo = new JLabel("Sexo:");
         lblSexo.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
-        lblMascotasIngresadas = new JLabel("J.C. Acabas de Ingresar las Siguientes Mascotas... ");
+        lblMascotasIngresadas = new JLabel("Las Siguientes Mascotas Seran Ingresadas... ");
         lblMascotasIngresadas.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        lblMascotasIngresadas.setVisible(false);
         //Inicializo campos de entrada
         txtNroSocio = new JTextField();
         txtNroSocio.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -171,10 +186,14 @@ public class NuevasMascotas extends JFrame {
         btnEliminarMascota.setAction(btnEliminarMascotaAction);
         btnEliminarMascota.setEnabled(false);
         btnConfirmar = new JButton("Confirmar");
-        //btnConfirmar.setAction(btnEliminarMascotaAction);
+        btnConfirmar.setAction(btnCofirmarMascotasAction);
+        btnLimpiar = new JButton("Limpiar");
+        btnLimpiar.setAction(btnLimpiarAction);
         btnConfirmar.setEnabled(false);
         btnAgregarFichaClinica = new JButton(AGREGAR_FICHA_CLINICA);
         btnAgregarFichaClinica.setAction(btnAgregarFichaClinicaAction);
+        btnAgregarVacunas = new JButton(AGREGAR_VACUNAS);
+        btnAgregarVacunas.setAction(btnAgregarVacunasAction);
         //Armo Group Layout del contentPane
         gl_contentPane = new GroupLayout(contentPane);
         contentPane.setLayout(gl_contentPane);
@@ -190,6 +209,7 @@ public class NuevasMascotas extends JFrame {
         pGroupPrimerasLabels.addComponent(lblFechaNacimiento, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
         pGroupPrimerasLabels.addComponent(lblEspecie, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
         pGroupPrimerasLabels.addComponent(lblSexo, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
+        pGroupPrimerasLabels.addComponent(btnLimpiar, GroupLayout.DEFAULT_SIZE, 120, 120);
         //ParallelGroup primeros textfields
         ParallelGroup pGroupPrimerosTexts = gl_contentPane.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING);
         pGroupPrimerosTexts.addComponent(txtNroSocio, 130, 130, 236);
@@ -212,6 +232,7 @@ public class NuevasMascotas extends JFrame {
         pGroupSegundosTexts.addComponent(txtNombreMascota, 130, 130, 236);
         pGroupSegundosTexts.addComponent(txtPeso, 130, 130, 236);
         pGroupSegundosTexts.addComponent(txtRaza, 130, 130, 236);
+        pGroupSegundosTexts.addComponent(btnAgregarVacunas, GroupLayout.Alignment.LEADING, 160, 160, 160);
         //SequentialGroup 
         SequentialGroup sGroupBusqueda = gl_contentPane.createSequentialGroup();
         sGroupBusqueda.addContainerGap();
@@ -222,15 +243,6 @@ public class NuevasMascotas extends JFrame {
         sGroupBusqueda.addGroup(pGroupSegundasLabels);
         sGroupBusqueda.addContainerGap(20, 50);
         sGroupBusqueda.addGroup(pGroupSegundosTexts);
-        //ParallelGroup agregar texto informacion
-        /* ParallelGroup pGroupTextInformacion = gl_contentPane.createParallelGroup(Alignment.LEADING);
-         SequentialGroup sGroupInformacion = gl_contentPane.createSequentialGroup();
-         sGroupInformacion.addGap(8);
-         sGroupInformacion.addComponent(lblInformacion, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 50);
-         sGroupInformacion.addGap(85);
-         sGroupInformacion.addComponent(txtInformacion, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, 750);
-         pGroupTextInformacion.addGroup(sGroupBusqueda);
-         pGroupTextInformacion.addGroup(sGroupInformacion);*/
         //ParallelGroup tabla de mascotas agregadas
         ParallelGroup pGroupTablaMascotas = gl_contentPane.createParallelGroup(Alignment.LEADING);
         pGroupTablaMascotas.addComponent(lblMascotasIngresadas);
@@ -265,8 +277,10 @@ public class NuevasMascotas extends JFrame {
         sGroupPrimerasLabels.addComponent(lblFechaNacimiento, GroupLayout.DEFAULT_SIZE, 10, 10);
         sGroupPrimerasLabels.addGap(5);
         sGroupPrimerasLabels.addComponent(lblEspecie, GroupLayout.DEFAULT_SIZE, 10, 10);
-        sGroupPrimerasLabels.addGap(10);
+        sGroupPrimerasLabels.addGap(13);
         sGroupPrimerasLabels.addComponent(lblSexo, GroupLayout.DEFAULT_SIZE, 20, 20);
+        sGroupPrimerasLabels.addGap(10);
+        sGroupPrimerasLabels.addComponent(btnLimpiar, GroupLayout.DEFAULT_SIZE, 15, 15);
         //SequentialGroup primeros textfields
         SequentialGroup sGroupPrimerosTexts = gl_contentPane.createSequentialGroup();
         sGroupPrimerosTexts.addContainerGap();
@@ -278,7 +292,7 @@ public class NuevasMascotas extends JFrame {
         pGroupRadioButtons.addComponent(rdbtmSexoMacho, GroupLayout.DEFAULT_SIZE, 30, 30);
         pGroupRadioButtons.addGap(10);
         pGroupRadioButtons.addComponent(rdbtmSexoHembra, GroupLayout.DEFAULT_SIZE, 30, 30);
-        sGroupPrimerosTexts.addGap(5);
+        sGroupPrimerosTexts.addGap(8);
         sGroupPrimerosTexts.addGroup(pGroupRadioButtons);
         //sGroupPrimerosTexts.addContainerGap();
         //SequentialGroup segundas labels
@@ -289,7 +303,7 @@ public class NuevasMascotas extends JFrame {
         sGroupSegundasLabels.addComponent(lblPeso, GroupLayout.DEFAULT_SIZE, 10, 10);
         sGroupSegundasLabels.addGap(5);
         sGroupSegundasLabels.addComponent(lblRaza, GroupLayout.DEFAULT_SIZE, 10, 10);
-        sGroupSegundasLabels.addGap(10);
+        sGroupSegundasLabels.addGap(13);
         sGroupSegundasLabels.addComponent(btnAgregarFichaClinica, GroupLayout.DEFAULT_SIZE, 10, 10);
         //SequentialGroup segundos textfields
         SequentialGroup sGroupSegundosTexts = gl_contentPane.createSequentialGroup();
@@ -297,6 +311,8 @@ public class NuevasMascotas extends JFrame {
         sGroupSegundosTexts.addComponent(txtNombreMascota, GroupLayout.DEFAULT_SIZE, 10, 10);
         sGroupSegundosTexts.addComponent(txtPeso, GroupLayout.DEFAULT_SIZE, 10, 10);
         sGroupSegundosTexts.addComponent(txtRaza, GroupLayout.DEFAULT_SIZE, 10, 10);
+        sGroupSegundosTexts.addGap(10);
+        sGroupSegundosTexts.addComponent(btnAgregarVacunas, GroupLayout.DEFAULT_SIZE, 10, 10);
         //ParallelGroup informacion
         /*ParallelGroup pGroupInformacion = gl_contentPane.createParallelGroup(GroupLayout.Alignment.LEADING);
         pGroupInformacion.addGap(8);
@@ -312,10 +328,6 @@ public class NuevasMascotas extends JFrame {
         pGroupBusqueda.addGroup(sGroupSegundasLabels);
         pGroupBusqueda.addGap(20, 20, 50);
         pGroupBusqueda.addGroup(sGroupSegundosTexts);
-        //SequentialGroup tabla de mascotas agregadas
-        SequentialGroup sGroupTablaMascotas = gl_contentPane.createSequentialGroup();
-        sGroupTablaMascotas.addGroup(pGroupBusqueda);
-        sGroupTablaMascotas.addGap(10);
         //ParallelGroup botonera abajo
         ParallelGroup pGroupBotones = gl_contentPane.createParallelGroup(Alignment.LEADING);
         pGroupBotones.addGap(40);
@@ -326,7 +338,10 @@ public class NuevasMascotas extends JFrame {
         pGroupBotones.addComponent(btnEliminarMascota, GroupLayout.DEFAULT_SIZE, 15, 15);
         pGroupBotones.addGap(50);
         pGroupBotones.addComponent(btnConfirmar, GroupLayout.DEFAULT_SIZE, 15, 15);
-        //sGroupTablaMascotas.addGroup(pGroupInformacion);
+        //SequentialGroup tabla de mascotas agregadas
+        SequentialGroup sGroupTablaMascotas = gl_contentPane.createSequentialGroup();
+        sGroupTablaMascotas.addGroup(pGroupBusqueda);
+        sGroupTablaMascotas.addGap(20);
         sGroupTablaMascotas.addComponent(lblMascotasIngresadas);
         sGroupTablaMascotas.addGap(10);
         sGroupTablaMascotas.addComponent(tablaMascotas, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE);
@@ -402,28 +417,12 @@ public class NuevasMascotas extends JFrame {
         this.informacion = informacion;
     }
 
-    public List<FichaClinicaTrans> getFichasClinicasTrans() {
-        return fichasClinicasTrans;
-    }
-
-    public void setFichasClinicasTrans(List<FichaClinicaTrans> fichasClinicasTrans) {
-        this.fichasClinicasTrans = fichasClinicasTrans;
-    }
-
     public GenericTablePanel getTablaMascotas() {
         return tablaMascotas;
     }
 
     public void setTablaMascotas(GenericTablePanel tablaMascotas) {
         this.tablaMascotas = tablaMascotas;
-    }
-
-    public List<MascotaTrans> getMascotasTrans() {
-        return mascotasTrans;
-    }
-
-    public void setMascotasTrans(List<MascotaTrans> mascotasTrans) {
-        this.mascotasTrans = mascotasTrans;
     }
 
     public void agregarFichaClinica(String informacion) {
@@ -435,30 +434,30 @@ public class NuevasMascotas extends JFrame {
         this.informacion = informacion;
     }
 
-    public void agregarFichasClinicas(GenericTabbedPane tabbedPane) {
-        fichasClinicasTrans = new ArrayList<FichaClinicaTrans>();
-        for (Component pestania : tabbedPane.getComponents()) {
-            JPanel jpanel = (JPanel) pestania;
-            FichaClinicaTrans fichaClinicaTrans = new FichaClinicaTrans();
-            String informacion = null;
-            for (Component component : jpanel.getComponents()) {
-                if (component instanceof JDateChooser) {
-                    Date fecha = ((JDateChooser) component).getDate();
-                    fichaClinicaTrans.setFecha(fecha);
-                }
-                if (component instanceof JScrollPane) {
-                    JViewport jViewport = ((JScrollPane) component).getViewport();
-                    informacion = ((JTextArea) jViewport.getComponent(0)).getText();
-                    fichaClinicaTrans.setInformacion(informacion);
-                }
-            }
-            //Falta filtrar si la informacion contiene caracteres en blanco, tabs...etc
-            if (informacion != null && !informacion.isEmpty()) {
-                fichasClinicasTrans.add(fichaClinicaTrans);
-            }
-        }
-    }
-
+    //METODO REUTILIZABLE CUANDO HAGA EL CONIRMAR
+    /* public void agregarFichasClinicas(GenericTabbedPane tabbedPane) {
+         fichasClinicasTrans = new ArrayList<FichaClinicaTrans>();
+         for (Component pestania : tabbedPane.getComponents()) {
+             JPanel jpanel = (JPanel) pestania;
+             FichaClinicaTrans fichaClinicaTrans = new FichaClinicaTrans();
+             String informacion = null;
+             for (Component component : jpanel.getComponents()) {
+                 if (component instanceof JDateChooser) {
+                     Date fecha = ((JDateChooser) component).getDate();
+                     fichaClinicaTrans.setFecha(fecha);
+                 }
+                 if (component instanceof JScrollPane) {
+                     JViewport jViewport = ((JScrollPane) component).getViewport();
+                     informacion = ((JTextArea) jViewport.getComponent(0)).getText();
+                     fichaClinicaTrans.setInformacion(informacion);
+                 }
+             }
+             //Falta filtrar si la informacion contiene caracteres en blanco, tabs...etc
+             if (informacion != null && !informacion.isEmpty()) {
+                 fichasClinicasTrans.add(fichaClinicaTrans);
+             }
+         }
+     }*/
     private class RowListener implements ListSelectionListener {
 
         public void valueChanged(ListSelectionEvent event) {
@@ -469,22 +468,123 @@ public class NuevasMascotas extends JFrame {
     private void cargarValores(ListSelectionEvent evt) {
         JTable table = tablaMascotas.getTable();
         int rowPos = table.getSelectedRow();
-        txtNroSocio.setText(table.getValueAt(rowPos, 0).toString());
-        txtNombreMascota.setText(table.getValueAt(rowPos, 1).toString());
-        txtFechaNacimiento.setText(table.getValueAt(rowPos, 2).toString());
-        txtPeso.setText(table.getValueAt(rowPos, 3).toString());
-        txtEspecie.setText(table.getValueAt(rowPos, 4).toString());
-        txtRaza.setText(table.getValueAt(rowPos, 5).toString());
-        if ("M".equals(table.getValueAt(rowPos, 6).toString())) {
-            rdbtmSexoMacho.setSelected(true);
-        } else {
-            rdbtmSexoHembra.setSelected(true);
+        if (rowPos != -1 && !(estoyAgregando || estoyModificando || estoyEliminando)) {
+            txtNroSocio.setText(table.getValueAt(rowPos, 0).toString());
+            txtNombreMascota.setText(table.getValueAt(rowPos, 1).toString());
+            txtFechaNacimiento.setText(table.getValueAt(rowPos, 2).toString());
+            txtPeso.setText(table.getValueAt(rowPos, 3).toString());
+            txtEspecie.setText(table.getValueAt(rowPos, 4).toString());
+            txtRaza.setText(table.getValueAt(rowPos, 5).toString());
+            if ("M".equals(table.getValueAt(rowPos, 6).toString())) {
+                rdbtmSexoMacho.setSelected(true);
+            } else {
+                rdbtmSexoHembra.setSelected(true);
+            }
+            ingresarFichaClinica = fichasClinicasIngresadas.get(rowPos);
+            this.habilitarBotones(true);
+            this.habilitarBotonConfirmar(true);
+            this.habilitarBotonAgregar(false);
         }
     }
 
     public void habilitarBotones(boolean enable) {
         btnModificarMascota.setEnabled(enable);
         btnEliminarMascota.setEnabled(enable);
+    }
+
+    public void habilitarBotonConfirmar(boolean enable) {
         btnConfirmar.setEnabled(enable);
+    }
+
+    public JLabel getLblMascotasIngresadas() {
+        return lblMascotasIngresadas;
+    }
+
+    public void setLblMascotasIngresadas(JLabel lblMascotasIngresadas) {
+        this.lblMascotasIngresadas = lblMascotasIngresadas;
+    }
+
+    public void limpiarCampos() {
+        txtNroSocio.setText("");
+        txtNombreMascota.setText("");
+        txtFechaNacimiento.setText("");
+        txtPeso.setText("");
+        txtEspecie.setText("");
+        txtRaza.setText("");
+        rdbtmSexoGroup.clearSelection();
+        ingresarFichaClinica = null;
+        vacunasTrans = new ArrayList<VacunaTrans>();
+    }
+
+    public IngresarFichaClinica getIngresarFichaClinica() {
+        return ingresarFichaClinica;
+    }
+
+    public void setIngresarFichaClinica(IngresarFichaClinica ingresarFichaClinica) {
+        this.ingresarFichaClinica = ingresarFichaClinica;
+    }
+
+    public List<IngresarFichaClinica> getFichasClinicasIngresadas() {
+        return fichasClinicasIngresadas;
+    }
+
+    public void setFichasClinicasIngresadas(List<IngresarFichaClinica> fichasClinicasIngresadas) {
+        this.fichasClinicasIngresadas = fichasClinicasIngresadas;
+    }
+
+    public void eiminarFichaClinica(int pos) {
+        fichasClinicasIngresadas.remove(pos);
+    }
+
+    public boolean isEstoyAgregando() {
+        return estoyAgregando;
+    }
+
+    public void setEstoyAgregando(boolean estoyAgregando) {
+        this.estoyAgregando = estoyAgregando;
+    }
+
+    public boolean isEstoyModificando() {
+        return estoyModificando;
+    }
+
+    public void setEstoyModificando(boolean estoyModificando) {
+        this.estoyModificando = estoyModificando;
+    }
+
+    public boolean isEstoyEliminando() {
+        return estoyEliminando;
+    }
+
+    public void setEstoyEliminando(boolean estoyEliminando) {
+        this.estoyEliminando = estoyEliminando;
+    }
+
+    public void modificarFichaClinica(int rowPos, IngresarFichaClinica ingresarFichaClinica) {
+        fichasClinicasIngresadas.set(rowPos, ingresarFichaClinica);
+    }
+
+    public void agregarFichaClinica(int rowPos, IngresarFichaClinica ingresarFichaClinica) {
+        fichasClinicasIngresadas.add(rowPos, ingresarFichaClinica);
+    }
+
+    public void habilitarBotonAgregar(boolean enable) {
+        btnAgregarMascota.setEnabled(enable);
+    }
+
+    public List<VacunaTrans> getVacunasTrans() {
+        return vacunasTrans;
+    }
+
+    public void setVacunasTrans(List<VacunaTrans> vacunasTrans) {
+        this.vacunasTrans = vacunasTrans;
+    }
+
+    public List<FichaClinicaTrans> getFichasClinicasTrans() {
+        return fichasClinicasTrans;
+    }
+
+    public void setFichasClinicasTrans(List<FichaClinicaTrans> fichasClinicasTrans) {
+        this.fichasClinicasTrans = fichasClinicasTrans;
     }
 }
